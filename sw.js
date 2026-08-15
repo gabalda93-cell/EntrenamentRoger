@@ -1,13 +1,14 @@
 /*
-  Service worker · Pla Roger v2.0
+  Service worker · Pla Roger · actualització coaching
   Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
   Canvia CACHE a cada publicació.
 */
-const CACHE = "roger-meso1-v20-final";
+const CACHE = "roger-meso1-v21-coaching";
 const CORE = [
   "./",
   "./index.html",
   "./app.js",
+  "./coach-enhancements.js",
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
