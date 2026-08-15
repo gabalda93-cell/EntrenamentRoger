@@ -1,0 +1,110 @@
+ENTRENAMENT ROGER · MESOCICLE 1 · V2.0
+AUDITORIA DE RELEASE · 15/08/2026
+
+ESTAT
+Release candidata a producció per al pilot d'en Roger.
+No hi ha errors coneguts en els circuits comprovats. Com en qualsevol PWA, l'única verificació que no es pot reproduir íntegrament dins d'aquest entorn és el comportament final del service worker/PWA en la URL HTTPS publicada i en l'iPhone real; per això es recomana una prova d'acceptació curta després de desplegar a GitHub Pages.
+
+1. COHERÈNCIA AMB LA FITXA D'EN ROGER
+- Objectiu del bloc: recuperar hàbit, força, resistència cardiovascular i tolerància a l'entrenament; objectiu postural autoinformat.
+- Disponibilitat reflectida: 3-4 dies laborables, aproximadament 45-75 min.
+- Material obligatori contrastat amb el declarat: banc, barra/discos, barra EZ, manuelles, kettlebells, bandes, barra de dominades, politja alta i el·líptica.
+- El banc no necessita posició de 90° per als exercicis obligatoris.
+- No es prescriu pes mort ni cap variant.
+- S'han incorporat patrons/exercicis que coincideixen amb preferències declarades, sense obligar variants que requereixin material no confirmat.
+- Press banca amb manuelles és la variant per defecte; barra només com a alternativa condicionada a suports/safeties adequats o ajuda.
+- Rem amb pit recolzat és el rem obligatori de C; rem en T queda com a alternativa només amb ancoratge segur.
+- Pallof no es prescriu: s'utilitza marxa unilateral amb kettlebell/manuella.
+- Jaló i face pull mantenen alternatives compatibles amb bandes/barra de dominades si la configuració de politja no és adequada.
+
+2. LÒGICA DE FORÇA
+- Ordre flexible A → B → C.
+- W1 RIR 4; W2 RIR 3; W3 principals RIR 2-3 i accessoris RIR 3; W4 principals RIR 3 amb última sèrie a RIR 2, accessoris RIR 3.
+- Dia groc: RIR 4 i reducció d'una sèrie només als quatre primers exercicis.
+- Sessions diferenciades: completa, reduïda, parcial i no completada.
+- Una sessió parcial/no completada no fa avançar la seqüència.
+- 12 sessions acreditades bloquegen el mesocicle: no hi ha setmana 5 ni sessió 13.
+- RPE global i motivació són explícits i obligatoris abans de desar la sessió.
+- Tancar amb dades sense desar demana confirmació.
+- Suggeriment de càrrega respecta l'increment mínim configurat.
+- Si falta RIR fiable, no suggereix pujar càrrega automàticament.
+- Dead bug no exigeix kg; planxa lateral és un hold en segons i no inventa RIR/càrrega.
+- Límits de dades: no es pot validar una sèrie amb >1000 kg, >100 reps (>600 s en holds) o RIR fora de 0-10.
+
+3. CARDIO
+- Tres exposicions per patró; només les exposicions completes compten.
+- Cal valorar explícitament l'RPE: no existeix RPE 4 implícit/per defecte.
+- Per progressar de patró, les 3 exposicions de la tanda han de ser RPE 1-4 i sense dolor rellevant registrat.
+- Si falla una tanda, calen 3 exposicions noves vàlides; no hi ha finestra lliscant.
+- Una exposició acabada abans d'hora no es pot acreditar com a completa.
+- W4 finalitza a 12/12 i queda bloquejat.
+- Progressió actual de temps corrent: W1 8 min; W2 9 min; W3 9 min; W4 11 min, amb un primer bloc continu de 5 min. Els 5 km x3/setmana són direcció futura, no objectiu immediat del mesocicle 1.
+- En dies combinats, l'app prioritza força abans de cardio i permet sessió reduïda si el temps real no acompanya.
+
+4. AUTOREGULACIÓ I ADHERÈNCIA
+- Semàfor: vermell amb senyal d'alarma o dolor >=4/10; groc amb son <6 h, energia <=2/5 o dolor 3/10; verd en la resta.
+- El check-in requereix confirmació explícita que energia, dolor i son s'han revisat.
+- Els check-ins vermells queden registrats per a l'informe.
+- La seqüència no reinicia setmanes si en Roger només pot fer 1-2 sessions: continua per la pendent.
+- Existeix sessió reduïda per preservar adherència sense convertir una setmana complicada en abandonament total.
+- Criteri del bloc visible: 9/12 força i 9/12 cardio com a adherència mínima del mesocicle; 12/12 és el recorregut complet, no una exigència de perfecció.
+
+5. PERSISTÈNCIA, BACKUP I INFORME
+- localStorage és el sistema principal; existeix migració de l'estat anterior.
+- Estat corruptible/mal format falla de manera segura en carregar.
+- La migració reconstrueix setmana, sessió següent, cardio i últimes càrregues a partir de l'historial acreditat; no confia cegament en flags importats.
+- Backup JSON versionat: schema roger-training-backup, schemaVersion 1.
+- Restauració només accepta backups/registres amb estructura reconeixible (sessions + cardio).
+- JSON aleatori és rebutjat; una versió futura no suportada també es rebutja.
+- Restaurar demana confirmació perquè substitueix l'estat actual.
+- Fitxers >2 MB es rebutgen a la restauració per fitxer.
+- L'informe de l'entrenador resumeix adherència, recuperació, sessions, càrregues/reps/RIR, cardio, tendències i punts a revisar.
+- HTML de l'informe escapa text introduït per l'usuari.
+- La funció de copiar només confirma “copiat” si el porta-retalls ha funcionat; si l'API moderna falla, prova un mètode alternatiu i no mostra un fals èxit.
+- Telèfon, correu i detall clínic innecessari del qüestionari no estan incrustats al bundle publicable.
+
+6. PWA / GITHUB PAGES / UX
+- index.html, manifest i service worker utilitzen rutes relatives compatibles amb una subruta de GitHub Pages.
+- Manifest standalone; icones 180, 192 i 512 px verificades.
+- Viewport permet zoom; no s'ha bloquejat l'accessibilitat per gest de pinça.
+- Cap overflow horitzontal detectat a 390 px ni 1440 px.
+- Scroll de pantalles explicatives i del reproductor d'exercicis es reinicia correctament en avançar.
+- Només una demostració del bloc postural queda activa alhora.
+- 22/22 exercicis prescrits tenen una animació assignada vàlida i amb almenys dues poses.
+- Revisió visual de les 22 captures de demostració: no s'ha detectat cap exercici etiquetat amb una animació d'un altre exercici.
+- Les animacions són ajuda visual; les instruccions tècniques escrites continuen sent la referència principal.
+- Service worker v2.0: xarxa primer quan hi ha connexió; caché com a reserva offline; elimina cachés antigues en activar-se.
+- robots.txt + noindex/nofollow redueixen indexació, però no constitueixen control d'accés.
+
+7. BASE CIENTÍFICA REVISADA
+- ACSM Position Stand 2026 (PMID 41843416, DOI 10.1249/MSS.0000000000003897): la força progressiva millora força, massa muscular i funció; 2-3 sèries i >=2 sessions/setmana són variables eficaces per força, i el tipus d'equipament/complexitat no determina consistentment el resultat. Això és coherent amb un bloc domèstic, progressiu i orientat a recuperar consistència.
+- Held et al. 2026, umbrella review de concurrent training (PMID 41762427, DOI 10.1007/s40279-026-02401-y): combinar força i resistència pot millorar la capacitat aeròbica mantenint adaptacions de força/hipertròfia comparables al treball de força sol en poblacions recreacionals. La seqüència global no mostra un efecte significatiu consistent; l'app prioritza força abans de cardio en dies combinats per prudència operativa.
+- Bastos et al. 2024, scoping review RIR (PMID 38563729, DOI 10.1177/00315125241241785): l'RIR és una eina viable per prescriure/ajustar intensitat, tot i que és una estimació. Per això el mesocicle comença lluny del falliment i utilitza diverses exposicions abans d'augmentar exigència.
+
+8. PROVES DE RELEASE EXECUTADES SOBRE L'APP.JS FINAL
+- Auditoria principal: 51/51.
+- Auditoria end-to-end/estàtica ampliada: 43/43.
+- Casos límit de dades/restauració: 6/6.
+- Porta-retalls: 2/2.
+TOTAL: 102/102 comprovacions automatitzades/tècniques superades.
+
+A més:
+- node --check app.js: SUPERAT.
+- node --check sw.js: SUPERAT.
+- manifest.webmanifest: JSON VÀLID.
+- 22 captures d'animació revisades visualment.
+
+9. LIMITACIÓ DE VALIDACIÓ
+Aquest entorn bloqueja Chromium quan intenta navegar directament a un servidor HTTP local (ERR_BLOCKED_BY_ADMINISTRATOR). Per això el service worker s'ha auditat estàticament, però no s'ha pogut executar aquí una prova offline real després d'una navegació HTTPS/localhost. La resta de la UI s'ha executat en Chromium carregant el bundle real.
+
+ABANS DE DONAR-LA A EN ROGER: PROVA D'ACCEPTACIÓ REAL (5-10 MIN)
+1. Publica els fitxers a GitHub Pages i obre la URL amb Safari a l'iPhone.
+2. Comprova que Ajustos mostra versió 2.0.
+3. Afegeix l'app a la pantalla d'inici i torna-la a obrir.
+4. Inicia una sessió, registra una sèrie de prova i surt sense desar: ha de demanar confirmació.
+5. Recarrega l'app: les dades ja desades han de continuar-hi.
+6. Desa una còpia del progrés i comprova que el fitxer es crea.
+7. Amb la web ja carregada una vegada, activa mode avió i comprova que l'app torna a obrir-se.
+8. Torna a tenir connexió i comprova que la versió publicada continua obrint-se correctament.
+
+Si aquests 8 punts passen a l'iPhone real, la release queda acceptada per al pilot.
