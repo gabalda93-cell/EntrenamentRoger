@@ -1,0 +1,67 @@
+/* ALÈ · identitat visual provisional. Només rebranding: no altera la lògica del pla. */
+:root{
+  --bg:#F2F1E8!important;
+  --bg2:#E8E8D8!important;
+  --card:#FFFDF8!important;
+  --card2:#E6E5D4!important;
+  --line:rgba(67,72,50,.11)!important;
+  --line2:rgba(67,72,50,.20)!important;
+  --tx:#283025!important;
+  --tx2:#686D5A!important;
+  --tx3:#92967D!important;
+  --ac:#737D50!important;
+  --acbg:rgba(115,125,80,.12)!important;
+  --ac2:#9A7A49!important;
+  --ok:#617B4F!important;
+  --warn:#B58A3A!important;
+  --bad:#A75B56!important;
+  --fig:#343929!important;
+  --figdim:#A6AA8B!important;
+  --figbg:#EAEBDE!important;
+  --gear:#737D50!important;
+  --stage:#B9BCA1!important;
+  --arrow:#737D50!important;
+  --ghost:rgba(52,57,41,.22)!important;
+  --shadow:0 1px 2px rgba(57,65,43,.06),0 7px 22px rgba(57,65,43,.07)!important;
+}
+html,body{background:#F2F1E8!important;color:#283025}
+
+.ale-brand-header{
+  max-width:720px;
+  margin:0 auto;
+  padding:14px 18px 0;
+  box-sizing:border-box;
+}
+.ale-brand-header__inner{
+  border-radius:18px;
+  overflow:hidden;
+  background:#8C9367;
+  box-shadow:0 7px 24px rgba(57,65,43,.10);
+}
+.ale-brand-header img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* La marca també entra a la benvinguda, sense tocar els textos personals d'en Roger. */
+.ale-onboarding-brand{
+  margin:0 0 14px;
+  border-radius:16px;
+  overflow:hidden;
+  background:#8C9367;
+  box-shadow:0 6px 18px rgba(57,65,43,.08);
+}
+.ale-onboarding-brand img{display:block;width:100%;height:auto}
+
+/* Acabats perquè tots els elements del motor heretin el llenguatge de marca. */
+.btn,.chip,.pill,.card,.banner,.figbox,.timer{transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease}
+.btn:not(.bad):focus-visible,.chip:focus-visible,.lnk:focus-visible,.x:focus-visible{
+  outline:3px solid rgba(115,125,80,.24)!important;
+  outline-offset:2px;
+}
+
+@media(max-width:520px){
+  .ale-brand-header{padding:10px 12px 0}
+  .ale-brand-header__inner{border-radius:15px}
+}
