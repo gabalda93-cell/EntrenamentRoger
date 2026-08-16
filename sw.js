@@ -1,14 +1,18 @@
 /*
-  Service worker · Pla Roger · actualització coaching
+  Service worker · ALÈ · Roger · actualització de marca
   Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
   Canvia CACHE a cada publicació.
 */
-const CACHE = "roger-meso1-v21-coaching";
+const CACHE = "ale-roger-meso1-brand-v1";
 const CORE = [
   "./",
   "./index.html",
   "./app.js",
   "./coach-enhancements.js",
+  "./ale-brand.css",
+  "./ale-brand.js",
+  "./ale-brand-logo.svg",
+  "./ale-brand-icon.svg",
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
