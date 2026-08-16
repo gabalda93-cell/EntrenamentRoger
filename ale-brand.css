@@ -26,33 +26,52 @@
 }
 html,body{background:#F2F1E8!important;color:#283025}
 
+/*
+  Capçalera ALÈ més discreta i proporcional.
+  L'altura és deliberadament menor que la proporció nativa del logo i la imatge
+  s'ancora a baix: així retallem l'aire sobrant de la part superior sense tallar
+  la línia inferior ni el descriptor de marca.
+*/
 .ale-brand-header{
   max-width:720px;
   margin:0 auto;
-  padding:14px 18px 0;
+  padding:4px 18px 0;
   box-sizing:border-box;
 }
 .ale-brand-header__inner{
-  border-radius:18px;
+  width:min(64%,440px);
+  height:72px;
+  margin:0 auto;
+  border-radius:14px;
   overflow:hidden;
   background:#8C9367;
-  box-shadow:0 7px 24px rgba(57,65,43,.10);
+  box-shadow:0 5px 18px rgba(57,65,43,.09);
 }
 .ale-brand-header img{
   display:block;
   width:100%;
-  height:auto;
+  height:100%;
+  object-fit:cover;
+  object-position:center bottom;
 }
 
 /* La marca també entra a la benvinguda, sense tocar els textos personals d'en Roger. */
 .ale-onboarding-brand{
-  margin:0 0 14px;
-  border-radius:16px;
+  width:min(82%,460px);
+  height:74px;
+  margin:0 auto 14px;
+  border-radius:14px;
   overflow:hidden;
   background:#8C9367;
-  box-shadow:0 6px 18px rgba(57,65,43,.08);
+  box-shadow:0 5px 16px rgba(57,65,43,.08);
 }
-.ale-onboarding-brand img{display:block;width:100%;height:auto}
+.ale-onboarding-brand img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center bottom;
+}
 
 /* Acabats perquè tots els elements del motor heretin el llenguatge de marca. */
 .btn,.chip,.pill,.card,.banner,.figbox,.timer{transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease}
@@ -62,6 +81,15 @@ html,body{background:#F2F1E8!important;color:#283025}
 }
 
 @media(max-width:520px){
-  .ale-brand-header{padding:10px 12px 0}
-  .ale-brand-header__inner{border-radius:15px}
+  .ale-brand-header{padding:3px 12px 0}
+  .ale-brand-header__inner{
+    width:min(76%,300px);
+    height:49px;
+    border-radius:11px;
+  }
+  .ale-onboarding-brand{
+    width:min(86%,340px);
+    height:55px;
+    border-radius:12px;
+  }
 }
