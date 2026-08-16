@@ -26,51 +26,48 @@
 }
 html,body{background:#F2F1E8!important;color:#283025}
 
-/*
-  Capçalera ALÈ més discreta i proporcional.
-  L'altura és deliberadament menor que la proporció nativa del logo i la imatge
-  s'ancora a baix: així retallem l'aire sobrant de la part superior sense tallar
-  la línia inferior ni el descriptor de marca.
-*/
+/* Capçalera ALÈ: més petita, centrada i visualment més a prop del contingut. */
 .ale-brand-header{
   max-width:720px;
-  margin:0 auto;
-  padding:4px 18px 0;
+  margin:0 auto -8px;
+  padding:8px 18px 0;
   box-sizing:border-box;
+  position:relative;
+  z-index:2;
 }
 .ale-brand-header__inner{
-  width:min(64%,440px);
-  height:72px;
+  width:min(52%,360px);
+  height:60px;
   margin:0 auto;
-  border-radius:14px;
+  border-radius:13px;
   overflow:hidden;
   background:#8C9367;
-  box-shadow:0 5px 18px rgba(57,65,43,.09);
+  box-shadow:0 5px 18px rgba(57,65,43,.08);
 }
 .ale-brand-header img{
   display:block;
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center bottom;
+  object-position:center 64%;
 }
 
-/* La marca també entra a la benvinguda, sense tocar els textos personals d'en Roger. */
+/* Marca dins la benvinguda. Una sola aparició, més discreta que la capçalera anterior. */
 .ale-onboarding-brand{
-  width:min(82%,460px);
-  height:74px;
-  margin:0 auto 14px;
-  border-radius:14px;
+  width:min(72%,380px);
+  height:62px;
+  margin:0 auto 12px;
+  border-radius:13px;
   overflow:hidden;
   background:#8C9367;
-  box-shadow:0 5px 16px rgba(57,65,43,.08);
+  box-shadow:0 5px 16px rgba(57,65,43,.07);
 }
 .ale-onboarding-brand img{
   display:block;
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center bottom;
+  object-position:center 64%;
 }
 
 /* Acabats perquè tots els elements del motor heretin el llenguatge de marca. */
@@ -81,15 +78,19 @@ html,body{background:#F2F1E8!important;color:#283025}
 }
 
 @media(max-width:520px){
-  .ale-brand-header{padding:3px 12px 0}
+  .ale-brand-header{
+    margin-bottom:-10px;
+    padding:7px 12px 0;
+  }
   .ale-brand-header__inner{
-    width:min(76%,300px);
-    height:49px;
-    border-radius:11px;
+    width:min(64%,250px);
+    height:43px;
+    border-radius:10px;
   }
   .ale-onboarding-brand{
-    width:min(86%,340px);
-    height:55px;
-    border-radius:12px;
+    width:min(74%,285px);
+    height:48px;
+    border-radius:11px;
+    margin-bottom:10px;
   }
 }
