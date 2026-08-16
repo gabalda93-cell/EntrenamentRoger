@@ -3,7 +3,7 @@
   Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
   Canvia CACHE a cada publicació.
 */
-const CACHE = "ale-roger-meso1-brand-v2";
+const CACHE = "ale-roger-meso1-brand-v3";
 const CORE = [
   "./",
   "./index.html",
