@@ -1,4 +1,4 @@
-/* ALÈ · identitat visual provisional. Només rebranding: no altera la lògica del pla. */
+/* ALÈ · identitat visual de la marca. Paleta i acabats; sense logotip. */
 :root{
   --bg:#F2F1E8!important;
   --bg2:#E8E8D8!important;
@@ -26,71 +26,9 @@
 }
 html,body{background:#F2F1E8!important;color:#283025}
 
-/* Capçalera ALÈ: més petita, centrada i visualment més a prop del contingut. */
-.ale-brand-header{
-  max-width:720px;
-  margin:0 auto -8px;
-  padding:8px 18px 0;
-  box-sizing:border-box;
-  position:relative;
-  z-index:2;
-}
-.ale-brand-header__inner{
-  width:min(52%,360px);
-  height:60px;
-  margin:0 auto;
-  border-radius:13px;
-  overflow:hidden;
-  background:#8C9367;
-  box-shadow:0 5px 18px rgba(57,65,43,.08);
-}
-.ale-brand-header img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 64%;
-}
-
-/* Marca dins la benvinguda. Una sola aparició, més discreta que la capçalera anterior. */
-.ale-onboarding-brand{
-  width:min(72%,380px);
-  height:62px;
-  margin:0 auto 12px;
-  border-radius:13px;
-  overflow:hidden;
-  background:#8C9367;
-  box-shadow:0 5px 16px rgba(57,65,43,.07);
-}
-.ale-onboarding-brand img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 64%;
-}
-
-/* Acabats perquè tots els elements del motor heretin el llenguatge de marca. */
+/* Acabats perquè tots els elements del motor heretin el llenguatge visual d'ALÈ. */
 .btn,.chip,.pill,.card,.banner,.figbox,.timer{transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease}
 .btn:not(.bad):focus-visible,.chip:focus-visible,.lnk:focus-visible,.x:focus-visible{
   outline:3px solid rgba(115,125,80,.24)!important;
   outline-offset:2px;
-}
-
-@media(max-width:520px){
-  .ale-brand-header{
-    margin-bottom:-10px;
-    padding:7px 12px 0;
-  }
-  .ale-brand-header__inner{
-    width:min(64%,250px);
-    height:43px;
-    border-radius:10px;
-  }
-  .ale-onboarding-brand{
-    width:min(74%,285px);
-    height:48px;
-    border-radius:11px;
-    margin-bottom:10px;
-  }
 }
