@@ -16,6 +16,10 @@
   `;
   document.head.appendChild(style);
 
+  const defer = window.queueMicrotask
+    ? window.queueMicrotask.bind(window)
+    : fn => Promise.resolve().then(fn);
+
   let queued = false;
   function pauseMountedPlayers() {
     queued = false;
@@ -30,7 +34,7 @@
   function queuePause() {
     if (queued) return;
     queued = true;
-    queueMicrotask(pauseMountedPlayers);
+    defer(pauseMountedPlayers);
   }
 
   const observer = new MutationObserver(queuePause);
