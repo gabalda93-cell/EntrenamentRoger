@@ -11,6 +11,14 @@ Aquesta carpeta és la versió publicable de l'app d'en Roger. No cal instal·la
 - `icon-*.png` — icones d'instal·lació.
 - `robots.txt` — demana als cercadors que no indexin la web.
 - `VALIDACIO-v2.0.txt` — resum de l'auditoria abans de publicar.
+- `demo-animacio.html` — prototip d'animació d'exercicis (no forma part de l'app).
+
+## Prototip d'animació
+
+`demo-animacio.html` és una pàgina independent que fa servir l'A1 (esquat goblet) per comparar el
+motor d'animació que hi ha al bundle amb una proposta de substitució, i que recull l'auditoria de les
+30 animacions actuals. No està enllaçada des de l'app ni la modifica: s'obre directament per la seva
+URL i es pot esborrar sense cap efecte sobre `app.js`.
 
 ## Publicació a GitHub Pages
 

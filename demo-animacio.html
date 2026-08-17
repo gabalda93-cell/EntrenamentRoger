@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALÈ · Mostra d'animació · A1 Esquat goblet</title>
+<meta name="description" content="Prototip d'animació d'exercicis per a l'app d'entrenament ALÈ.">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#8C9367">
+<link rel="stylesheet" href="ale-brand.css">
+<style>
+  :root{
+    --bg:#F2F1E8; --bg2:#E8E8D8; --card:#FFFDF8; --card2:#E6E5D4;
+    --line:rgba(67,72,50,.11); --line2:rgba(67,72,50,.20);
+    --tx:#283025; --tx2:#686D5A; --tx3:#92967D;
+    --ac:#737D50; --acbg:rgba(115,125,80,.12); --ac2:#9A7A49;
+    --ok:#617B4F; --warn:#B58A3A; --bad:#A75B56;
+    --fig:#343929; --figdim:#A6AA8B; --figbg:#EAEBDE;
+    --gear:#737D50; --stage:#B9BCA1; --arrow:#737D50; --ghost:rgba(52,57,41,.22);
+    --shadow:0 1px 2px rgba(57,65,43,.06),0 7px 22px rgba(57,65,43,.07);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--tx);
+    font:400 15px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    -webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px calc(40px + env(safe-area-inset-bottom))}
+  .eyebrow{font-size:10px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin:0 0 6px}
+  h1{font-size:25px;line-height:1.2;font-weight:680;letter-spacing:-.015em;margin:0 0 8px}
+  h2{font-size:17px;font-weight:650;letter-spacing:-.01em;margin:0 0 4px}
+  .lede{color:var(--tx2);font-size:13.5px;line-height:1.5;margin:0 0 22px}
+  .card{background:var(--card);border:.5px solid var(--line);border-radius:18px;
+    padding:16px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .cap{font-size:12.5px;line-height:1.45;color:var(--tx2);margin:6px 0 0}
+  .cap2{font-size:11.5px;line-height:1.4;color:var(--tx3);margin:4px 0 0}
+  .sec{margin:30px 0 12px}
+  .sec p{margin:2px 0 0;font-size:13px;color:var(--tx2)}
+
+  .figbox{background:var(--figbg);border-radius:14px;overflow:hidden;position:relative}
+  .fig{display:block;width:100%;height:auto}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .duo h3{font-size:12px;font-weight:700;margin:0 0 6px;letter-spacing:.01em}
+  .duo h3 small{display:block;font-weight:500;font-size:10.5px;color:var(--tx3);letter-spacing:0;margin-top:1px}
+
+  .row{display:flex;align-items:center;gap:10px}
+  .sb{justify-content:space-between}
+  .grow{flex:1;min-width:0}
+  .seg{display:inline-flex;background:var(--bg2);border-radius:10px;padding:2px;gap:2px}
+  .seg button{appearance:none;border:0;background:transparent;color:var(--tx2);
+    font:600 12px/1 inherit;padding:7px 11px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:var(--card);color:var(--tx);box-shadow:0 1px 2px rgba(57,65,43,.10)}
+  .btn{appearance:none;border:.5px solid var(--line2);background:var(--card);color:var(--tx);
+    font:600 12.5px/1 inherit;padding:9px 13px;border-radius:10px;cursor:pointer}
+  .btn.pri{background:var(--ac);border-color:var(--ac);color:#FFFDF8}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:22px;background:transparent;width:100%;margin:0}
+  input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:var(--bg2)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:var(--ac);margin-top:-7px;box-shadow:0 1px 3px rgba(57,65,43,.25)}
+  input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--bg2)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--ac)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px}
+  .stat{background:var(--bg2);border-radius:11px;padding:8px 9px;text-align:center}
+  .stat b{display:block;font-size:16px;font-weight:680;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.15}
+  .stat span{display:block;font-size:9.5px;font-weight:650;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--tx3);margin-top:3px}
+  .stat.hit b{color:var(--ok)}
+  .stat.miss b{color:var(--bad)}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;
+    font-size:11px;font-weight:650;letter-spacing:.01em}
+  .pill.ok{background:rgba(97,123,79,.13);color:var(--ok)}
+  .pill.bad{background:rgba(167,91,86,.13);color:var(--bad)}
+  .pill.n{background:var(--bg2);color:var(--tx2)}
+  .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}
+
+  .wave{margin-top:12px}
+  .wavesvg{display:block;width:100%;height:52px}
+  .wavelabs{position:relative;height:15px;margin-top:2px}
+  .wavelabs span{position:absolute;transform:translateX(-50%);font-size:10px;color:var(--tx3);white-space:nowrap}
+  .wavelabs b{color:var(--tx2);font-weight:650}
+
+  .errlist{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .errlist button{appearance:none;border:.5px solid var(--line2);background:var(--card);color:var(--tx2);
+    font:600 11.5px/1 inherit;padding:8px 11px;border-radius:999px;cursor:pointer;text-align:left}
+  .errlist button.on{background:rgba(167,91,86,.12);border-color:rgba(167,91,86,.35);color:var(--bad)}
+  .errlist button.on.good{background:var(--acbg);border-color:rgba(115,125,80,.35);color:var(--ac)}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{text-align:left;font-size:9.5px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--tx3);padding:0 8px 7px 0;border-bottom:.5px solid var(--line)}
+  td{padding:9px 8px 9px 0;border-bottom:.5px solid var(--line);vertical-align:top;line-height:1.4}
+  td:first-child{font-weight:650;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  .sev{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .s3{background:var(--bad)} .s2{background:var(--warn)} .s1{background:var(--tx3)}
+  code{font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg2);
+    padding:1.5px 5px;border-radius:5px;color:var(--tx2)}
+  .foot{margin-top:26px;font-size:11.5px;line-height:1.5;color:var(--tx3)}
+  @media (max-width:420px){ .stats{grid-template-columns:repeat(2,1fr)} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">ALÈ · Prototip d'animació</p>
+  <h1>A1 · Esquat goblet</h1>
+  <p class="lede">Mostra de com es poden animar els exercicis de l'app. A l'esquerra, el motor que hi ha
+  ara publicat; a la dreta, la proposta. Els dos es mouen amb el mateix tempo prescrit
+  (<code>3-0-1-0</code>) per poder-los comparar directament.</p>
+
+  <!-- ============================ COMPARATIVA ============================ -->
+  <div class="card">
+    <div class="duo">
+      <div>
+        <h3>Motor actual <small>2 fotogrames · interpolació lineal</small></h3>
+        <div class="figbox"><svg id="svgOld" class="fig" role="img"
+          aria-label="Esquema del moviment amb el motor actual"></svg></div>
+      </div>
+      <div>
+        <h3>Proposta <small>cinemàtica directa · peu clavat</small></h3>
+        <div class="figbox"><svg id="svgNew" class="fig" role="img"
+          aria-label="Esquema del moviment amb el motor proposat"></svg></div>
+      </div>
+    </div>
+    <p class="cap"><b>Què canvia.</b> El motor actual parteix d'una posició «dret» que ja té el genoll
+    a 118° (mitja genuflexió permanent) i interpola en línia recta entre dos fotogrames, de manera que
+    el maluc baixa en diagonal i el peu llisca 2 unitats. La proposta parteix del peu clavat a terra i
+    construeix la postura per angles: el bloqueig de dalt és real (177°), els segments no canvien mai de
+    llargada i el maluc descriu la trajectòria que fa de veritat —enrere primer, avall després.</p>
+  </div>
+
+  <!-- ============================ PROPOSTA ============================ -->
+  <div class="sec">
+    <h2>La proposta en detall</h2>
+    <p>Mateix llenguatge visual d'ALÈ, però amb la informació que un entrenador miraria de veritat.</p>
+  </div>
+
+  <div class="card">
+    <div class="row sb" style="margin-bottom:11px">
+      <div class="seg" id="viewSeg">
+        <button data-view="lateral" class="on">Lateral</button>
+        <button data-view="frontal">Frontal</button>
+      </div>
+      <span class="pill n" id="phasePill"><span class="dot"></span><span>Baixa</span></span>
+    </div>
+
+    <div class="figbox"><svg id="svgMain" class="fig" role="img"
+      aria-label="Animació detallada de l'esquat goblet"></svg></div>
+
+    <div class="stats">
+      <div class="stat"><b id="stKnee">—</b><span>Genoll</span></div>
+      <div class="stat"><b id="stHip">—</b><span>Maluc</span></div>
+      <div class="stat"><b id="stAnkle">—</b><span>Turmell</span></div>
+      <div class="stat" id="stDepthBox"><b id="stDepth">—</b><span>Profunditat</span></div>
+    </div>
+
+    <div class="wave">
+      <svg class="wavesvg" id="wave" viewBox="0 0 360 52" preserveAspectRatio="none"></svg>
+      <div class="wavelabs" id="waveLabs"></div>
+    </div>
+
+    <div class="row sb" style="margin-top:12px;gap:12px">
+      <button class="btn pri" id="play">Pausa</button>
+      <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Posició dins del cicle">
+    </div>
+    <p class="cap"><b id="breathTxt">Inspira</b> · <span id="breathSub">agafa aire abans i durant la baixada</span></p>
+  </div>
+
+  <!-- ============================ ERRORS ============================ -->
+  <div class="sec">
+    <h2>Errors freqüents, animats</h2>
+    <p>L'app ja té escrits els errors de cada exercici, però només com a text. Amb aquest motor es poden
+    ensenyar: en verd el patró correcte, en vermell l'error, tots dos alhora.</p>
+  </div>
+
+  <div class="card">
+    <div class="errlist" id="errList">
+      <button data-err="none" class="on good">Només el correcte</button>
+      <button data-err="heel">Talons que s'aixequen</button>
+      <button data-err="valgus">Genoll cap endins</button>
+      <button data-err="depth">Massa profunditat</button>
+    </div>
+    <div class="figbox"><svg id="svgErr" class="fig" role="img"
+      aria-label="Comparació entre el patró correcte i l'error"></svg></div>
+    <p class="cap" id="errTxt">Els tres errors que l'app llista per a l'A1 es poden veure abans de
+    cometre'ls. Tria'n un per comparar-lo amb el patró correcte.</p>
+  </div>
+
+  <!-- ============================ AUDITORIA ============================ -->
+  <div class="sec">
+    <h2>Auditoria del motor actual</h2>
+    <p>Resultats de comprovar les 30 animacions del bundle amb el mateix rig que fa servir l'app.</p>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>Troballa</th><th>Abast</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="sev s3"></span>Fases invertides</td>
+          <td><b>12 de 17</b> exercicis amb tempo prescrit animen la <b>pujada</b> durant els segons
+          d'excèntric i sonen el to de «baixa» mentre la figura puja.
+          A l'A5 això vol dir 3 s pujant de puntetes i 1 s baixant, just al revés del que està prescrit.</td>
+        </tr>
+        <tr>
+          <td><span class="sev s3"></span>Mai s'està dret</td>
+          <td><b>9</b> animacions laterals comencen amb el genoll a <b>118°</b> en comptes de ~177°.
+          La posició inicial compartida (<code>hip y=95</code> amb el turmell a <code>y=148</code>)
+          deixa la cama a un 86 % de la seva llargada: mitja genuflexió permanent.</td>
+        </tr>
+        <tr>
+          <td><span class="sev s3"></span>Membres de goma</td>
+          <td>A les vistes frontals la interpolació és de posicions, no d'angles: el braç del
+          <code>dbohp_f</code> (B2) s'allarga <b>13,2</b> unitats sobre 22 durant el cicle (+60 %), i la
+          cama del <code>suitcasemarch</code> (C8) <b>18</b> sobre 31.</td>
+        </tr>
+        <tr>
+          <td><span class="sev s2"></span>Extremitats que no arriben</td>
+          <td><code>yraise</code> i <code>chestrow</code> (B6, C3) demanen a la cama <b>67,5</b> unitats
+          quan el màxim anatòmic n'és 62: la cama es dibuixa sense tocar el peu.
+          Passa el mateix amb el braç a B1, C1, C8 i A5.</td>
+        </tr>
+        <tr>
+          <td><span class="sev s2"></span>Peus que llisquen o floten</td>
+          <td>El peu del davant llisca 2 unitats a l'esquat i 6 a la gambada; el dit del peu del darrere
+          de <code>lunge_f</code> queda <b>6 unitats sota terra</b> i, a l'elevació de bessons, el peu
+          sencer <b>flota 4 unitats</b> just quan el que s'ha de veure és el gir sobre el metatars.</td>
+        </tr>
+        <tr>
+          <td><span class="sev s2"></span>Unilaterals sense alternança</td>
+          <td>Amb només dos fotogrames, C8 (marxa) mai canvia de cama i A3/B1/C1 sempre treballen el
+          mateix costat, tot i que la fitxa diu «alterna les cames».</td>
+        </tr>
+        <tr>
+          <td><span class="sev s1"></span>Proporcions</td>
+          <td>L'avantbraç del rig és 21 sobre un braç de 22 (ràtio 0,95). La ràtio antropomètrica és
+          ~0,78: l'avantbraç és un <b>22 % massa llarg</b>, i és el que fa que les preses a l'altura del
+          pit surtin amb el colze desencaixat.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="cap2">Comprovacions fetes sobre <code>app.js</code> mostrejant 41 punts de cada cicle:
+    llargada de cada segment, abast de la cadena cinemàtica, contacte amb el terra i direcció real de la
+    càrrega respecte de la fase que anuncia l'app.</p>
+  </div>
+
+  <p class="foot">Prototip de demostració. No està connectat a l'app: és una pàgina a part per validar
+  l'enfocament abans de portar-lo al motor. Tot es dibuixa amb SVG generat al moment —cap vídeo, cap
+  imatge, cap dependència— així que continua funcionant sense connexió i pesa uns pocs kB.</p>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ══════════════════════════════════════════════════════════════════════════
+   1. RIG PROPOSAT · cinemàtica directa des del peu clavat a terra
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const GROUND = 156;
+// Proporcions antropomètriques (Drillis & Contini) escalades a tronc = 34
+const SEG = { shank:29.5, thigh:29.5, torso:34, head:14, arm:22, fore:17.3,
+              footFwd:12, footBack:6, ankleH:8 };
+const R = d => d * Math.PI / 180;
+const lerp = (a,b,t) => a + (b-a)*t;
+const px = n => Math.round(n*10)/10;
+
+// Hermite monòton: passa pels punts sense sobreoscil·lar
+function track(pts, x){
+  const n = pts.length;
+  if (x <= pts[0][0]) return pts[0][1];
+  if (x >= pts[n-1][0]) return pts[n-1][1];
+  let i = 0; while (i < n-2 && x > pts[i+1][0]) i++;
+  const [x0,y0] = pts[i], [x1,y1] = pts[i+1], h = x1-x0, t = (x-x0)/h;
+  const slope = k => {
+    if (k === 0)   return (pts[1][1]-pts[0][1])/(pts[1][0]-pts[0][0]);
+    if (k === n-1) return (pts[n-1][1]-pts[n-2][1])/(pts[n-1][0]-pts[n-2][0]);
+    const a = (pts[k][1]-pts[k-1][1])/(pts[k][0]-pts[k-1][0]);
+    const b = (pts[k+1][1]-pts[k][1])/(pts[k+1][0]-pts[k][0]);
+    return a*b <= 0 ? 0 : 2*a*b/(a+b);
+  };
+  const m0 = slope(i)*h, m1 = slope(i+1)*h, t2 = t*t, t3 = t2*t;
+  return (2*t3-3*t2+1)*y0 + (t3-2*t2+t)*m0 + (-2*t3+3*t2)*y1 + (t3-t2)*m1;
+}
+
+// Els tres graus de llibertat de l'esquat, cadascun amb el seu ritme propi.
+// Que no siguin proporcionals entre ells és el que fa que el maluc surti enrere.
+const SQUAT = {
+  ankle: [[0,2],[0.20,5],[0.45,12],[0.70,22],[1,31]],   // dorsiflexió
+  knee:  [[0,3],[0.20,17],[0.45,48],[0.70,86],[1,113]], // flexió de genoll
+  trunk: [[0,4],[0.20,13],[0.45,27],[0.70,38],[1,45]],  // inclinació del tronc
+};
+
+const vec  = (a,rad,l) => [a[0]+l*Math.sin(rad), a[1]-l*Math.cos(rad)];
+const dist = (a,b) => Math.hypot(a[0]-b[0], a[1]-b[1]);
+const perp = (a,b,l) => { const dx=b[0]-a[0], dy=b[1]-a[1], m=Math.hypot(dx,dy)||1;
+                          return [-dy/m*l, dx/m*l]; };
+
+// IK de dos ossos (llei del cosinus). side = costat cap al qual dobla l'articulació.
+function ik(a, b, l1, l2, side){
+  const dx=b[0]-a[0], dy=b[1]-a[1];
+  const c = Math.hypot(dx,dy) || .001;
+  const o = Math.min(Math.max(c, Math.abs(l1-l2)+.01), l1+l2-.01);
+  const ux=dx/c, uy=dy/c;
+  const g = (o*o + l1*l1 - l2*l2)/(2*o);
+  const p = Math.sqrt(Math.max(0, l1*l1 - g*g));
+  return [a[0]+ux*g + side*uy*p, a[1]+uy*g - side*ux*p];
+}
+
+/**
+ * Construeix la postura completa a partir de la profunditat d ∈ [0,1].
+ * El peu és l'arrel: mai llisca ni travessa el terra.
+ */
+function poseAt(d, opt){
+  opt = opt || {};
+  const ax = opt.ax != null ? opt.ax : 104;
+  const extra = opt.extra || 0;              // profunditat per sobre del rang còmode
+  const heel  = opt.heel  || 0;              // taló aixecat (unitats)
+  const dd = Math.min(1, d) + extra * Math.min(1, d);
+  const over = Math.max(0, dd - 1);
+
+  const af = track(SQUAT.ankle, Math.min(1,dd)) + over*14;
+  const kf = track(SQUAT.knee,  Math.min(1,dd)) + over*40;
+  let   tf = track(SQUAT.trunk, Math.min(1,dd)) + over*18;
+
+  // El peu gira sobre el cap dels metatarsos quan s'aixeca el taló
+  const toe = [ax + SEG.footFwd, GROUND];
+  const phi = Math.asin(Math.min(.9, heel*Math.min(1,d) / (SEG.footFwd+SEG.footBack)));
+  const spin = p => { const x=p[0]-toe[0], y=p[1]-toe[1], c=Math.cos(phi), s=Math.sin(phi);
+                      return [toe[0]+x*c-y*s, toe[1]+x*s+y*c]; };
+  const heelPt = spin([ax - SEG.footBack, GROUND]);
+  const ankle  = spin([ax, GROUND - SEG.ankleH]);
+
+  const sA = R(af) + phi;                       // tíbia respecte de la vertical
+  const knee = vec(ankle, sA, SEG.shank);
+  const tA = sA - R(kf);                        // fèmur
+  const hip = vec(knee, tA, SEG.thigh);
+  const trA = R(tf);
+  const sh = vec(hip, trA, SEG.torso);
+  const head = vec(sh, trA*0.5, SEG.head);      // mirada endavant
+
+  // Pelvis: retroversió («butt wink») quan es passa de rang
+  const round = Math.min(1, over*4.5);
+  const tilt = trA + R(90) + R(round*26);
+  const pelvis = [ vec(hip, tilt, 7.5), vec(hip, tilt + R(180), 5) ];
+
+  // Columna: lordosi lumbar normal; s'inverteix i s'arrodoneix en retroversió
+  const bow = perp(hip, sh, lerp(2.4, -3.2, round));
+  const spine = [ hip, [ (hip[0]+sh[0])/2 + bow[0], (hip[1]+sh[1])/2 + bow[1] ], sh ];
+
+  // Presa goblet: la kettlebell va enganxada al pit i gira amb el tronc.
+  const up = [(sh[0]-hip[0])/SEG.torso, (sh[1]-hip[1])/SEG.torso];
+  const fwd = [-up[1], up[0]];
+  const grip = [ hip[0] + up[0]*23.5 + fwd[0]*15, hip[1] + up[1]*23.5 + fwd[1]*15 ];
+  const hands = [ [grip[0]-fwd[0]*4, grip[1]-fwd[1]*4],
+                  [grip[0]-fwd[0]*4 - up[0]*3.4, grip[1]-fwd[1]*4 - up[1]*3.4] ];
+  // En una presa a dues mans l'húmer s'orienta cap a la línia mitjana, així que en
+  // vista sagital penja gairebé vertical i és l'avantbraç el que queda escorçat.
+  // Mantenim l'húmer rígid i deixem que l'escorç el faci l'avantbraç, que és el que
+  // realment gira fora del pla.
+  const elbowA = R(180 - (14 + 12*Math.min(1,dd)));
+  const elbows = [ vec(sh, elbowA, SEG.arm), vec(sh, elbowA + R(3), SEG.arm) ];
+
+  const ang = (p,q,r) => {
+    const u=[p[0]-q[0],p[1]-q[1]], v=[r[0]-q[0],r[1]-q[1]];
+    return Math.acos(Math.max(-1,Math.min(1,
+      (u[0]*v[0]+u[1]*v[1])/((Math.hypot(u[0],u[1])||1)*(Math.hypot(v[0],v[1])||1))))) * 180/Math.PI;
+  };
+
+  return { toe, heel:heelPt, ankle, knee, hip, sh, head, pelvis, spine,
+           grip, hands, elbows, phi,
+           kneeAng: ang(hip,knee,ankle), hipAng: ang(sh,hip,knee),
+           ankleAng: (sA)*180/Math.PI,
+           parallel: hip[1] - knee[1] };
+}
+
+/** Vista frontal: projecció ortogràfica de la MATEIXA postura sagital. */
+function frontAt(d, opt){
+  opt = opt || {};
+  const o = opt.ox || 0;
+  const s = poseAt(d, { extra: opt.extra || 0, heel: opt.heel || 0 });
+  const val = (opt.valgus || 0) * Math.pow(Math.min(1,d), 1.6);   // el genoll cau al fons
+  const L = {                                                     // x = amplada real, y = de la sagital
+    ankle:[113+o, s.ankle[1]], knee:[113+o - val, s.knee[1]], hip:[106.5+o, s.hip[1]],
+    sh:[111+o, s.sh[1]], toe:[116+o, GROUND], heel:[110+o, s.heel[1]] };
+  const Rt = {
+    ankle:[87+o, s.ankle[1]], knee:[87+o + val, s.knee[1]], hip:[93.5+o, s.hip[1]],
+    sh:[89+o, s.sh[1]], toe:[84+o, GROUND], heel:[90+o, s.heel[1]] };
+  const mid = [100+o, s.hip[1]];
+  const grip = [100+o, s.grip[1]];
+  return { L, Rt, mid, grip, head:[100+o, s.head[1]], shMid:[100+o, s.sh[1]],
+           hands:[[105.5+o, s.grip[1]],[94.5+o, s.grip[1]]],
+           elbows:[[116+o, lerp(s.grip[1], s.sh[1], -0.5)],[84+o, lerp(s.grip[1], s.sh[1], -0.5)]],
+           valgus: val, sag:s };
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   2. MOTOR ACTUAL · reimplementació fidel del que hi ha a app.js
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const OLD_SEG = { torso:34, head:13, thigh:31, shank:31, foot:16, arm:22, fore:21 };
+const oldFoot = (a,f) => ({a, f});
+const OLD_GOBLET = {                                    // dades tal com són al bundle
+  v: [ { hip:[100,95], torso:8,  head:-4,
+         feet:[oldFoot([104,148],63), oldFoot([95,148],63)], hands:[[120,70],[120,74]] },
+       { hip:[94,119], torso:26, head:-8,
+         feet:[oldFoot([106,148],63), oldFoot([95,148],63)], hands:[[124,97],[124,101]] } ]
+};
+const oldPolar = (a,deg,l) => [a[0]+l*Math.sin(R(deg)), a[1]-l*Math.cos(R(deg))];
+const oldDown  = (a,deg,l) => [a[0]+l*Math.sin(R(deg)), a[1]+l*Math.cos(R(deg))];
+
+function oldRig(p){
+  const hip = p.hip;
+  const sh   = oldPolar(hip, p.torso, OLD_SEG.torso);
+  const head = oldPolar(sh, p.torso + (p.head||0), OLD_SEG.head);
+  const legs = p.feet.map(f => ({
+    knee: ik(hip, f.a, OLD_SEG.thigh, OLD_SEG.shank, 1),
+    ankle: f.a, toe: oldDown(f.a, f.f, OLD_SEG.foot) }));
+  const arms = p.hands.map(h => ({ elbow: ik(sh, h, OLD_SEG.arm, OLD_SEG.fore, -1), hand: h }));
+  return { hip, sh, head, legs, arms };
+}
+function oldLerp(a,b,t){
+  const P = (x,y) => [lerp(x[0],y[0],t), lerp(x[1],y[1],t)];
+  return { hip:P(a.hip,b.hip), torso:lerp(a.torso,b.torso,t), head:lerp(a.head,b.head,t),
+    feet: a.feet.map((f,i)=>({ a:P(f.a,b.feet[i].a), f:lerp(f.f,b.feet[i].f,t) })),
+    hands: a.hands.map((h,i)=>P(h,b.hands[i])) };
+}
+const oldAt = d => oldRig(oldLerp(OLD_GOBLET.v[0], OLD_GOBLET.v[1], d));
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. DIBUIX
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs) => { const n = document.createElementNS(NS, tag);
+  for (const k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]); return n; };
+const pts = arr => arr.map(p => px(p[0]) + ',' + px(p[1])).join(' ');
+
+// Segment cònic: gruix wa a l'origen, wb al final
+function limb(a, b, wa, wb){
+  const [nx,ny] = perp(a,b,1);
+  return pts([[a[0]+nx*wa, a[1]+ny*wa],[b[0]+nx*wb, b[1]+ny*wb],
+              [b[0]-nx*wb, b[1]-ny*wb],[a[0]-nx*wa, a[1]-ny*wa]]);
+}
+
+// Cinta de gruix variable seguint una Bézier quadràtica: serveix per al tronc,
+// que així conserva la curvatura de la columna en comptes de ser una barra recta.
+function ribbon(p0, p1, p2, widths){
+  const N = 10, front = [], back = [];
+  for (let i = 0; i <= N; i++){
+    const t = i/N, u = 1-t;
+    const b = [u*u*p0[0] + 2*u*t*p1[0] + t*t*p2[0],
+               u*u*p0[1] + 2*u*t*p1[1] + t*t*p2[1]];
+    const d = [2*u*(p1[0]-p0[0]) + 2*t*(p2[0]-p1[0]),
+               2*u*(p1[1]-p0[1]) + 2*t*(p2[1]-p1[1])];
+    const m = Math.hypot(d[0], d[1]) || 1;
+    const w = track(widths, t), nx = -d[1]/m*w, ny = d[0]/m*w;
+    front.push([b[0]+nx, b[1]+ny]);
+    back.unshift([b[0]-nx, b[1]-ny]);
+  }
+  return pts(front.concat(back));
+}
+
+function ground(g, x0, x1){
+  g.appendChild(el('line',{ x1:x0, y1:GROUND, x2:x1, y2:GROUND,
+    stroke:'var(--stage)', 'stroke-width':2.2, 'stroke-linecap':'round' }));
+}
+
+/** Dibuixa una figura del rig nou. Retorna una funció update(pose). */
+function drawFigure(g, opts){
+  const o = opts || {};
+  const col = o.color || 'var(--fig)';
+  const bg  = 'var(--figbg)';
+  const gear = o.gearColor || 'var(--gear)';
+  const op = o.opacity != null ? o.opacity : 1;
+  const grp = el('g', { opacity:op });
+  const parts = {};
+  const add = (k, tag, attrs) => { const n = el(tag, attrs); grp.appendChild(n); parts[k] = n; return n; };
+
+  // costat del fons: mateix color, atenuat, perquè es llegeixi la profunditat
+  const far = el('g', { opacity:.42 });
+  const addFar = (k, tag, attrs) => { const n = el(tag, attrs); far.appendChild(n); parts[k] = n; };
+  addFar('farThigh','polygon',{ fill:col });
+  addFar('farShank','polygon',{ fill:col });
+  addFar('farFoot','polyline',{ fill:'none', stroke:col, 'stroke-width':3.6,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  addFar('farKnee','circle',{ r:3.1, fill:col });
+  addFar('farArm','polyline',{ fill:'none', stroke:col, 'stroke-width':4.4,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  grp.appendChild(far);
+
+  // tronc
+  add('torso','polygon',{ fill:col });
+  if (o.pelvis) add('pelvis','line',{ stroke:bg, 'stroke-width':2.6, 'stroke-linecap':'round', opacity:.9 });
+  add('neck','line',{ stroke:col, 'stroke-width':4.2, 'stroke-linecap':'round' });
+  add('headBg','circle',{ r:7.6, fill:bg });
+  add('head','circle',{ r:6.6, fill:col });
+  add('nose','circle',{ r:1.9, fill:bg, opacity:.9 });
+
+  // cama i braç del davant
+  add('thigh','polygon',{ fill:col });
+  add('shank','polygon',{ fill:col });
+  add('knee','circle',{ r:3.5, fill:col });
+  add('ankle','circle',{ r:2.5, fill:col });
+  add('foot','polyline',{ fill:'none', stroke:col, 'stroke-width':4.2,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('arm','polyline',{ fill:'none', stroke:col, 'stroke-width':5,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('elbow','circle',{ r:2.6, fill:col });
+
+  // kettlebell
+  add('kbHandle','path',{ fill:'none', stroke:gear, 'stroke-width':2.6, 'stroke-linecap':'round' });
+  add('kb','circle',{ r:7.4, fill:gear, stroke:bg, 'stroke-width':1.5 });
+
+  // contacte del taló
+  if (o.contact) add('heelDot','circle',{ r:3.2, fill:'var(--ok)' });
+
+  g.appendChild(grp);
+
+  return p => {
+    // La cama del fons és la mateixa cadena traslladada: continua sent rígida.
+    const off = 7.5;
+    const T = a => [a[0]-off, a[1]];
+    const fHip = T(p.hip), fKnee = T(p.knee), fAnkle = T(p.ankle);
+    const fThighTop = [lerp(fHip[0], fKnee[0], .24), lerp(fHip[1], fKnee[1], .24)];
+    parts.farThigh.setAttribute('points', limb(fThighTop, fKnee, 4.2, 3.2));
+    parts.farShank.setAttribute('points', limb(fKnee, fAnkle, 3.2, 2.2));
+    parts.farFoot.setAttribute('points', pts([T(p.heel), fAnkle, T(p.toe)]));
+    parts.farKnee.setAttribute('cx', px(fKnee[0])); parts.farKnee.setAttribute('cy', px(fKnee[1]));
+    parts.farArm.setAttribute('points', pts([p.sh, p.elbows[1], p.hands[1]]));
+
+    const s = p.spine;
+    parts.torso.setAttribute('points',
+      ribbon(s[0], s[1], s[2], [[0,3.6],[0.55,4.7],[1,4.5]]));
+    if (parts.pelvis){
+      parts.pelvis.setAttribute('x1', px(p.pelvis[0][0])); parts.pelvis.setAttribute('y1', px(p.pelvis[0][1]));
+      parts.pelvis.setAttribute('x2', px(p.pelvis[1][0])); parts.pelvis.setAttribute('y2', px(p.pelvis[1][1]));
+    }
+    parts.neck.setAttribute('x1', px(p.sh[0])); parts.neck.setAttribute('y1', px(p.sh[1]));
+    parts.neck.setAttribute('x2', px(p.head[0])); parts.neck.setAttribute('y2', px(p.head[1]));
+    for (const k of ['headBg','head']) {
+      parts[k].setAttribute('cx', px(p.head[0])); parts[k].setAttribute('cy', px(p.head[1])); }
+    const nz = perp(p.sh, p.head, 4.6);      // la cara mira cap endavant
+    parts.nose.setAttribute('cx', px(p.head[0]+nz[0])); parts.nose.setAttribute('cy', px(p.head[1]+nz[1]));
+
+    parts.thigh.setAttribute('points', limb(p.hip, p.knee, 5.2, 3.8));
+    parts.shank.setAttribute('points', limb(p.knee, p.ankle, 3.8, 2.6));
+    parts.knee.setAttribute('cx', px(p.knee[0])); parts.knee.setAttribute('cy', px(p.knee[1]));
+    parts.ankle.setAttribute('cx', px(p.ankle[0])); parts.ankle.setAttribute('cy', px(p.ankle[1]));
+    parts.foot.setAttribute('points', pts([p.heel, p.ankle, p.toe]));
+    parts.arm.setAttribute('points', pts([p.sh, p.elbows[0], p.hands[0]]));
+    parts.elbow.setAttribute('cx', px(p.elbows[0][0])); parts.elbow.setAttribute('cy', px(p.elbows[0][1]));
+
+    parts.kb.setAttribute('cx', px(p.grip[0])); parts.kb.setAttribute('cy', px(p.grip[1]));
+    const hu = perp(p.hip, p.sh, 1);
+    parts.kbHandle.setAttribute('d',
+      `M${px(p.grip[0]-hu[0]*5.5)},${px(p.grip[1]-hu[1]*5.5)} ` +
+      `Q${px(p.grip[0]+(p.sh[0]-p.hip[0])/SEG.torso*10)},${px(p.grip[1]+(p.sh[1]-p.hip[1])/SEG.torso*10)} ` +
+      `${px(p.grip[0]+hu[0]*5.5)},${px(p.grip[1]+hu[1]*5.5)}`);
+
+    if (parts.heelDot){
+      const lifted = p.phi > 0.02;
+      parts.heelDot.setAttribute('cx', px(p.heel[0]));
+      parts.heelDot.setAttribute('cy', px(p.heel[1]));
+      parts.heelDot.setAttribute('fill', lifted ? 'var(--bad)' : 'var(--ok)');
+    }
+  };
+}
+
+/** Figura del motor actual (rig d'app.js). */
+function drawOldFigure(g){
+  const grp = el('g', null), P = {};
+  const add = (k,tag,a) => { const n = el(tag,a); grp.appendChild(n); P[k]=n; return n; };
+  add('farThigh','polygon',{ fill:'var(--figdim)' });
+  add('farShank','polygon',{ fill:'var(--figdim)' });
+  add('farFoot','polyline',{ fill:'none', stroke:'var(--figdim)', 'stroke-width':3.4,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('farArm','polyline',{ fill:'none', stroke:'var(--figdim)', 'stroke-width':4.2,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('torso','polygon',{ fill:'var(--fig)' });
+  add('neck','line',{ stroke:'var(--fig)', 'stroke-width':4, 'stroke-linecap':'round' });
+  add('headBg','circle',{ r:7.8, fill:'var(--figbg)' });
+  add('head','circle',{ r:6.2, fill:'var(--fig)' });
+  add('thigh','polygon',{ fill:'var(--fig)' });
+  add('shank','polygon',{ fill:'var(--fig)' });
+  add('knee','circle',{ r:3.4, fill:'var(--fig)' });
+  add('foot','polyline',{ fill:'none', stroke:'var(--fig)', 'stroke-width':4,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('arm','polyline',{ fill:'none', stroke:'var(--fig)', 'stroke-width':4.8,
+      'stroke-linecap':'round','stroke-linejoin':'round' });
+  add('kb','circle',{ r:8.5, fill:'var(--gear)', opacity:.92 });
+  g.appendChild(grp);
+
+  return f => {
+    const L0 = f.legs[0], L1 = f.legs[1];
+    P.farThigh.setAttribute('points', limb(f.hip, L1.knee, 4.0, 2.9));
+    P.farShank.setAttribute('points', limb(L1.knee, L1.ankle, 2.9, 2.0));
+    P.farFoot.setAttribute('points', pts([L1.ankle, L1.toe]));
+    P.farArm.setAttribute('points', pts([f.sh, f.arms[1].elbow, f.arms[1].hand]));
+    const t = perp(f.hip, f.sh, 1);
+    P.torso.setAttribute('points', pts([
+      [f.sh[0]+t[0]*4.4, f.sh[1]+t[1]*4.4], [f.sh[0]-t[0]*4.4, f.sh[1]-t[1]*4.4],
+      [f.hip[0]-t[0]*3.2, f.hip[1]-t[1]*3.2], [f.hip[0]+t[0]*3.2, f.hip[1]+t[1]*3.2] ]));
+    P.neck.setAttribute('x1', px(f.sh[0])); P.neck.setAttribute('y1', px(f.sh[1]));
+    P.neck.setAttribute('x2', px(f.head[0])); P.neck.setAttribute('y2', px(f.head[1]));
+    for (const k of ['headBg','head']) {
+      P[k].setAttribute('cx', px(f.head[0])); P[k].setAttribute('cy', px(f.head[1])); }
+    P.thigh.setAttribute('points', limb(f.hip, L0.knee, 4.6, 3.4));
+    P.shank.setAttribute('points', limb(L0.knee, L0.ankle, 3.4, 2.3));
+    P.knee.setAttribute('cx', px(L0.knee[0])); P.knee.setAttribute('cy', px(L0.knee[1]));
+    P.foot.setAttribute('points', pts([L0.ankle, L0.toe]));
+    P.arm.setAttribute('points', pts([f.sh, f.arms[0].elbow, f.arms[0].hand]));
+    const kb = [(f.arms[0].hand[0]+f.arms[1].hand[0])/2, (f.arms[0].hand[1]+f.arms[1].hand[1])/2];
+    P.kb.setAttribute('cx', px(kb[0])); P.kb.setAttribute('cy', px(kb[1]));
+  };
+}
+
+/** Figura frontal. */
+function drawFrontFigure(g, opts){
+  const o = opts || {};
+  const col = o.color || 'var(--fig)';
+  const grp = el('g', { opacity: o.opacity != null ? o.opacity : 1 }), P = {};
+  const add = (k,tag,a) => { const n = el(tag,a); grp.appendChild(n); P[k]=n; return n; };
+  ['L','R'].forEach(s => {
+    add(s+'thigh','polygon',{ fill:col });
+    add(s+'shank','polygon',{ fill:col });
+    add(s+'knee','circle',{ r:3.4, fill:col });
+    add(s+'ankle','line',{ stroke:col, 'stroke-width':2.6, 'stroke-linecap':'round' });
+    add(s+'foot','line',{ stroke:col, 'stroke-width':4.2, 'stroke-linecap':'round' });
+    add(s+'arm','polyline',{ fill:'none', stroke:col, 'stroke-width':4.6,
+        'stroke-linecap':'round','stroke-linejoin':'round' });
+  });
+  add('torso','polygon',{ fill:col });
+  add('neck','line',{ stroke:col, 'stroke-width':4.2, 'stroke-linecap':'round' });
+  add('headBg','circle',{ r:8.2, fill:'var(--figbg)' });
+  add('head','circle',{ r:6.6, fill:col });
+  add('kb','circle',{ r:7.4, fill:o.gearColor || 'var(--gear)',
+      stroke:'var(--figbg)', 'stroke-width':1.5 });
+  g.appendChild(grp);
+
+  return f => {
+    const sides = [['L', f.L, 0], ['R', f.Rt, 1]];
+    for (const [k, s, i] of sides){
+      P[k+'thigh'].setAttribute('points', limb([f.mid[0]+(i?-6.5:6.5), s.hip[1]], s.knee, 5.0, 3.6));
+      P[k+'shank'].setAttribute('points', limb(s.knee, s.ankle, 3.6, 2.5));
+      P[k+'knee'].setAttribute('cx', px(s.knee[0])); P[k+'knee'].setAttribute('cy', px(s.knee[1]));
+      P[k+'ankle'].setAttribute('x1', px(s.ankle[0])); P[k+'ankle'].setAttribute('y1', px(s.ankle[1]));
+      P[k+'ankle'].setAttribute('x2', px(s.ankle[0])); P[k+'ankle'].setAttribute('y2', px(GROUND));
+      P[k+'foot'].setAttribute('x1', px(s.heel[0])); P[k+'foot'].setAttribute('y1', px(GROUND));
+      P[k+'foot'].setAttribute('x2', px(s.toe[0]));  P[k+'foot'].setAttribute('y2', px(GROUND));
+      P[k+'arm'].setAttribute('points', pts([s.sh, f.elbows[i], f.hands[i]]));
+    }
+    P.torso.setAttribute('points', pts([ f.L.sh, f.Rt.sh,
+      [f.mid[0]-6.5, f.mid[1]], [f.mid[0]+6.5, f.mid[1]] ]));
+    P.neck.setAttribute('x1', px(f.shMid[0])); P.neck.setAttribute('y1', px(f.shMid[1]));
+    P.neck.setAttribute('x2', px(f.head[0]));  P.neck.setAttribute('y2', px(f.head[1]));
+    for (const k of ['headBg','head']) {
+      P[k].setAttribute('cx', px(f.head[0])); P[k].setAttribute('cy', px(f.head[1])); }
+    P.kb.setAttribute('cx', px(f.grip[0])); P.kb.setAttribute('cy', px(f.grip[1]));
+  };
+}
+
+/** Enquadrament automàtic mostrejant tot el cicle. */
+function fitBox(sampler, ratio){
+  let x0=1e9, x1=-1e9, y0=1e9, y1=-1e9;
+  for (let i=0;i<=20;i++){
+    for (const p of sampler(i/20)){ x0=Math.min(x0,p[0]); x1=Math.max(x1,p[0]);
+                                    y0=Math.min(y0,p[1]); y1=Math.max(y1,p[1]); }
+  }
+  x0-=9; x1+=9; y0-=10; y1=Math.max(y1, GROUND)+8;
+  let w=x1-x0, h=y1-y0;
+  if (w/h < ratio){ const d=(h*ratio-w)/2; x0-=d; w=h*ratio; }
+  else { const d=w/ratio-h; y0-=d*.72; h=w/ratio; }
+  return { x:x0, y:y0, w, h };
+}
+const boxAttr = (svg, b) => svg.setAttribute('viewBox',
+  `${px(b.x)} ${px(b.y)} ${px(b.w)} ${px(b.h)}`);
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. RELLOTGE · tempo 3-0-1-0 amb les fases al lloc correcte
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const TEMPO = [3, 0, 1, 0];                        // A1: baixada, pausa, pujada, pausa
+const PH = TEMPO.map(s => Math.max(s, 0.18));
+const TOT = PH.reduce((a,b)=>a+b, 0);
+const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+
+/** Retorna { d, phase, within } per a un instant del cicle. */
+function clockAt(u){
+  const x = ((u % 1) + 1) % 1 * TOT;
+  const [e, p1, c] = PH;
+  if (x < e)            return { d: easeIO(x/e),           phase:0, within:x/e };
+  if (x < e+p1)         return { d: 1,                     phase:1, within:(x-e)/p1 };
+  if (x < e+p1+c){
+    const t = (x-e-p1)/c;
+    // Perfil de velocitat real: el punt de bloqueig frena a mig recorregut
+    const v = easeIO(t)*0.82 + t*0.18;
+    return { d: 1 - v, phase:2, within:t };
+  }
+  return { d: 0, phase:3, within:(x-e-p1-c)/PH[3] };
+}
+const PHASE_NAME = ['Baixa', 'Pausa', 'Puja', 'Pausa'];
+
+/* ══════════════════════════════════════════════════════════════════════════
+   5. MUNTATGE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+// ---- panell comparatiu ------------------------------------------------------
+const svgOld = document.getElementById('svgOld');
+const svgNew = document.getElementById('svgNew');
+
+boxAttr(svgOld, fitBox(t => { const f = oldAt(t);
+  return [f.hip, f.sh, f.legs[0].knee, f.legs[0].ankle, f.legs[0].toe, f.legs[1].toe,
+          [f.arms[0].hand[0]+9, f.arms[0].hand[1]], [f.head[0], f.head[1]-8]]; }, 0.92));
+boxAttr(svgNew, fitBox(t => { const p = poseAt(t);
+  return [p.hip, p.sh, p.knee, p.ankle, p.toe, p.heel,
+          [p.grip[0]+9, p.grip[1]], [p.head[0], p.head[1]-8]]; }, 0.92));
+
+const gOld = el('g', null); svgOld.appendChild(gOld);
+ground(gOld, -200, 400);
+// rastre del maluc segons el motor actual (recta)
+const oldTrail = el('polyline', { fill:'none', stroke:'var(--ac2)', 'stroke-width':1.3,
+  opacity:.5, 'stroke-dasharray':'2.5 3' });
+oldTrail.setAttribute('points', pts([oldAt(0).hip, oldAt(1).hip]));
+gOld.appendChild(oldTrail);
+const updOld = drawOldFigure(gOld);
+
+const gNew = el('g', null); svgNew.appendChild(gNew);
+ground(gNew, -200, 400);
+const newTrail = el('polyline', { fill:'none', stroke:'var(--ac2)', 'stroke-width':1.3,
+  opacity:.5, 'stroke-dasharray':'2.5 3' });
+newTrail.setAttribute('points', pts(Array.from({length:31}, (_,i)=> poseAt(i/30).hip)));
+gNew.appendChild(newTrail);
+const updNew = drawFigure(gNew, { contact:true });
+
+// ---- panell principal -------------------------------------------------------
+const svgMain = document.getElementById('svgMain');
+const layers = { lateral: el('g',null), frontal: el('g',{ style:'display:none' }) };
+svgMain.appendChild(layers.lateral); svgMain.appendChild(layers.frontal);
+
+const BOX_LAT = fitBox(t => { const p = poseAt(t);
+  return [p.hip, p.sh, p.knee, p.ankle, p.toe, p.heel,
+          [p.grip[0]+10, p.grip[1]], [p.head[0], p.head[1]-9]]; }, 0.95);
+const BOX_FRO = fitBox(t => { const f = frontAt(t, { valgus:0 });
+  return [f.L.toe, f.Rt.toe, f.L.knee, f.Rt.knee, [f.L.sh[0]+7, f.L.sh[1]],
+          [f.Rt.sh[0]-7, f.Rt.sh[1]], [f.head[0], f.head[1]-9]]; }, 0.95);
+boxAttr(svgMain, BOX_LAT);
+
+// — capa lateral
+ground(layers.lateral, BOX_LAT.x, BOX_LAT.x + BOX_LAT.w);
+// silueta de la posició final
+const ghost = el('g', { stroke:'var(--figdim)', 'stroke-width':1.5, fill:'none', opacity:.75,
+  'stroke-dasharray':'3 2.5', 'stroke-linecap':'round', 'stroke-linejoin':'round' });
+{ const b = poseAt(1);
+  ghost.appendChild(el('polyline',{ points: pts([b.hip, b.knee, b.ankle, b.toe]) }));
+  ghost.appendChild(el('polyline',{ points: pts([b.hip, b.sh]) }));
+  ghost.appendChild(el('circle',{ cx:px(b.head[0]), cy:px(b.head[1]), r:6.6 })); }
+layers.lateral.appendChild(ghost);
+// guia de profunditat
+const guideKnee = el('line',{ stroke:'var(--stage)', 'stroke-width':1.2, 'stroke-dasharray':'4 4' });
+const guideHip  = el('line',{ stroke:'var(--ac)', 'stroke-width':1.4, 'stroke-dasharray':'4 4', opacity:.7 });
+layers.lateral.appendChild(guideKnee); layers.lateral.appendChild(guideHip);
+// trajectòria de la kettlebell
+const kbRef = el('line',{ stroke:'var(--ac2)', 'stroke-width':1, 'stroke-dasharray':'2 4', opacity:.35 });
+{ const g0 = poseAt(0).grip;
+  kbRef.setAttribute('x1', px(g0[0])); kbRef.setAttribute('x2', px(g0[0]));
+  kbRef.setAttribute('y1', px(BOX_LAT.y+4)); kbRef.setAttribute('y2', GROUND); }
+layers.lateral.appendChild(kbRef);
+const hipPath = el('polyline',{ fill:'none', stroke:'var(--ac)', 'stroke-width':1.6,
+  opacity:.5, 'stroke-dasharray':'4 3', 'stroke-linecap':'round', 'stroke-linejoin':'round' });
+hipPath.setAttribute('points', pts(Array.from({length:41}, (_,i)=> poseAt(i/40).hip)));
+layers.lateral.appendChild(hipPath);
+const kbPath = el('polyline',{ fill:'none', stroke:'var(--ac2)', 'stroke-width':1.6,
+  opacity:.6, 'stroke-dasharray':'4 3', 'stroke-linecap':'round', 'stroke-linejoin':'round' });
+kbPath.setAttribute('points', pts(Array.from({length:41}, (_,i)=> poseAt(i/40).grip)));
+layers.lateral.appendChild(kbPath);
+// etiquetes de les guies: omplen el marge amb informació en comptes de buit
+const mkLabel = txt => { const t = el('text', { x:0, y:0, 'font-size':5.2, 'font-weight':700,
+  'letter-spacing':.5, fill:'var(--tx3)' }); t.textContent = txt;
+  layers.lateral.appendChild(t); return t; };
+const labKnee = mkLabel('GENOLL'), labHip = mkLabel('MALUC');
+labHip.setAttribute('text-anchor', 'end');
+const updMainLat = drawFigure(layers.lateral, { contact:true, pelvis:true });
+
+// — capa frontal
+ground(layers.frontal, BOX_FRO.x, BOX_FRO.x + BOX_FRO.w);
+const trackL = el('line',{ stroke:'var(--stage)', 'stroke-width':1.1, 'stroke-dasharray':'4 4' });
+const trackR = el('line',{ stroke:'var(--stage)', 'stroke-width':1.1, 'stroke-dasharray':'4 4' });
+for (const [ln, x] of [[trackL,113],[trackR,87]]){
+  ln.setAttribute('x1',x); ln.setAttribute('x2',x);
+  ln.setAttribute('y1',px(BOX_FRO.y+6)); ln.setAttribute('y2',GROUND);
+  layers.frontal.appendChild(ln);
+}
+const updMainFro = drawFrontFigure(layers.frontal, {});
+
+// ---- panell d'errors --------------------------------------------------------
+const svgErr = document.getElementById('svgErr');
+const errLayers = { lateral: el('g',null), frontal: el('g',{ style:'display:none' }) };
+svgErr.appendChild(errLayers.lateral); svgErr.appendChild(errLayers.frontal);
+ground(errLayers.lateral, -200, 400);
+ground(errLayers.frontal, -200, 400);
+// Correcte i error un al costat de l'altre: comparar-los és més clar que superposar-los.
+const AX_OK = 76, AX_BAD = 136, OX_OK = -26, OX_BAD = 26;
+const gBadLat = el('g',null), gBadFro = el('g',null);
+const updErrGood    = drawFigure(errLayers.lateral, { color:'var(--figdim)', gearColor:'var(--figdim)', pelvis:true });
+errLayers.lateral.appendChild(gBadLat);
+const updErrBad     = drawFigure(gBadLat, { color:'var(--bad)', gearColor:'var(--bad)', contact:true, pelvis:true });
+const updErrGoodFro = drawFrontFigure(errLayers.frontal, { color:'var(--figdim)', gearColor:'var(--figdim)' });
+errLayers.frontal.appendChild(gBadFro);
+const updErrBadFro  = drawFrontFigure(gBadFro, { color:'var(--bad)', gearColor:'var(--bad)' });
+const errTag = (txt, x, fill) => { const t = el('text', { x, y:168, 'font-size':5.4,
+  'font-weight':750, 'letter-spacing':.6, fill, 'text-anchor':'middle' });
+  t.textContent = txt; return t; };
+const errTags = [];
+[errLayers.lateral, errLayers.frontal].forEach((lay, i) => {
+  const ok = i ? 100 + OX_OK : AX_OK + 4, bad = i ? 100 + OX_BAD : AX_BAD + 4;
+  const a = errTag('CORRECTE', ok, 'var(--tx3)'), b = errTag('ERROR', bad, 'var(--bad)');
+  lay.appendChild(a); lay.appendChild(b); errTags.push(a, b);
+});
+const BOX_ERR = fitBox(t => { const a = poseAt(t, { ax:AX_OK }), b = poseAt(t, { ax:AX_BAD, heel:9, extra:.25 });
+  return [a.hip, a.heel, a.toe, [a.head[0], a.head[1]-9],
+          b.hip, b.sh, b.knee, b.toe, [b.grip[0]+10, b.grip[1]], [b.head[0], b.head[1]-9],
+          [AX_BAD+14, GROUND+12]]; }, 1.28);
+boxAttr(svgErr, BOX_ERR);
+
+const ERRORS = {
+  none:   { txt:'Patró correcte: taló clavat, genoll alineat amb el peu i profunditat que permet mantenir la pelvis neutra.', opt:{} },
+  heel:   { txt:'<b>Talons que s\'aixequen del terra.</b> El pes marxa cap a la puntera, el genoll se\'n va endavant i es perd la base d\'estabilitat. Sol venir de poca mobilitat de turmell: obre una mica els peus o posa una falca sota el taló.', opt:{ heel:9 } },
+  valgus: { txt:'<b>Genoll que cau cap endins.</b> Només es veu de cara. El genoll deixa de seguir la direcció del peu i el maluc perd la rotació externa. Pensa a separar lleugerament els genolls mentre baixes.', opt:{ valgus:11 }, front:true },
+  depth:  { txt:'<b>Buscar profunditat més enllà del que és còmode.</b> Quan s\'esgota el rang, la pelvis fa retroversió i la lumbar s\'arrodoneix al punt més baix. Atura la baixada just abans que passi.', opt:{ extra:.25 } },
+};
+let currentErr = 'none';
+
+// ---- ona de tempo -----------------------------------------------------------
+const WAVE_W = 360, WAVE_H = 52, Y_HI = 12, Y_LO = 42;
+const cuts = [0];
+PH.forEach((s,i) => cuts.push(cuts[i] + s/TOT*WAVE_W));
+const wavePath =
+  `M0,${Y_HI} C${cuts[1]*.4},${Y_HI} ${cuts[1]*.6},${Y_LO} ${cuts[1]},${Y_LO} ` +
+  `L${cuts[2]},${Y_LO} ` +
+  `C${cuts[2]+(cuts[3]-cuts[2])*.4},${Y_LO} ${cuts[2]+(cuts[3]-cuts[2])*.6},${Y_HI} ${cuts[3]},${Y_HI} ` +
+  `L${WAVE_W},${Y_HI}`;
+const wave = document.getElementById('wave');
+{
+  const defs = el('defs', null);
+  const cp = el('clipPath', { id:'wclip' });
+  cp.appendChild(el('path', { d: wavePath + ` L${WAVE_W},${WAVE_H} L0,${WAVE_H} Z` }));
+  defs.appendChild(cp); wave.appendChild(defs);
+  wave.appendChild(el('path', { d: wavePath + ` L${WAVE_W},${WAVE_H} L0,${WAVE_H} Z`, fill:'var(--acbg)' }));
+  cuts.slice(1,4).forEach(x => wave.appendChild(el('line',
+    { x1:x, y1:3, x2:x, y2:WAVE_H-3, stroke:'var(--line2)', 'stroke-width':1 })));
+  wave.appendChild(el('path', { d: wavePath, fill:'none', stroke:'var(--ac)',
+    'stroke-width':2.4, 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+}
+const waveFill = el('rect', { x:0, y:0, width:0, height:WAVE_H, fill:'var(--ac)',
+  opacity:.2, 'clip-path':'url(#wclip)' });
+wave.appendChild(waveFill);
+const waveHead = el('circle', { cx:0, cy:Y_HI, r:5.5, fill:'var(--tx)' });
+wave.appendChild(waveHead);
+{
+  const labs = document.getElementById('waveLabs');
+  ['Baixa','Pausa','Puja','Pausa'].forEach((name,i) => {
+    if (TEMPO[i] < 0.25 && i % 2 === 1) return;
+    const s = document.createElement('span');
+    s.style.left = ((cuts[i]+cuts[i+1])/2 / WAVE_W * 100) + '%';
+    s.innerHTML = name + ' <b>' + TEMPO[i] + 's</b>';
+    labs.appendChild(s);
+  });
+}
+
+// ---- estat i bucle ----------------------------------------------------------
+const stKnee = document.getElementById('stKnee'), stHip = document.getElementById('stHip'),
+      stAnkle = document.getElementById('stAnkle'), stDepth = document.getElementById('stDepth'),
+      stDepthBox = document.getElementById('stDepthBox'),
+      phasePill = document.getElementById('phasePill'),
+      breathTxt = document.getElementById('breathTxt'), breathSub = document.getElementById('breathSub'),
+      scrub = document.getElementById('scrub'), playBtn = document.getElementById('play');
+
+let view = 'lateral';
+let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let u = 0, last = performance.now();
+
+function render(u){
+  const { d, phase } = clockAt(u);
+
+  // comparativa
+  updOld(oldAt(d));
+  updNew(poseAt(d));
+
+  // panell principal
+  const p = poseAt(d);
+  if (view === 'lateral') updMainLat(p);
+  else updMainFro(frontAt(d, {}));
+
+  ghost.setAttribute('opacity', px(Math.max(0, .8*(1-d))));
+  const gx0 = 66, gx1 = 142;
+  guideKnee.setAttribute('x1', gx0); guideKnee.setAttribute('x2', gx1);
+  guideKnee.setAttribute('y1', px(p.knee[1])); guideKnee.setAttribute('y2', px(p.knee[1]));
+  guideHip.setAttribute('x1', gx0); guideHip.setAttribute('x2', gx1);
+  guideHip.setAttribute('y1', px(p.hip[1])); guideHip.setAttribute('y2', px(p.hip[1]));
+  labKnee.setAttribute('x', gx0); labKnee.setAttribute('y', px(p.knee[1] - 2.4));
+  labHip.setAttribute('x', gx1);  labHip.setAttribute('y', px(p.hip[1] - 2.4));
+
+  stKnee.textContent  = Math.round(p.kneeAng) + '°';
+  stHip.textContent   = Math.round(p.hipAng) + '°';
+  stAnkle.textContent = Math.round(p.ankleAng) + '°';
+  // parallel = maluc.y − genoll.y; com que la y creix cap avall, com més negatiu
+  // més amunt queda el maluc (menys profunditat).
+  const par = p.parallel;
+  stDepth.textContent = par < -12 ? 'Parcial' : (par <= 2 ? 'Paral·lel' : 'Profund');
+  stDepthBox.className = 'stat' + (par >= -12 ? ' hit' : '');
+
+  phasePill.className = 'pill ' + (phase === 0 ? 'n' : phase === 2 ? 'ok' : 'n');
+  phasePill.lastElementChild.textContent = PHASE_NAME[phase];
+
+  if (phase === 0 || phase === 3){
+    breathTxt.textContent = 'Inspira';
+    breathSub.textContent = 'agafa aire abans i durant la baixada';
+  } else if (phase === 2){
+    breathTxt.textContent = 'Expira';
+    breathSub.textContent = 'deixa anar l\'aire mentre puges';
+  } else {
+    breathTxt.textContent = 'Mantén';
+    breathSub.textContent = 'tronc ferm, sense bloquejar la respiració';
+  }
+
+  // errors
+  const cfg = ERRORS[currentErr];
+  const front = !!cfg.front;
+  const solo = currentErr === 'none';
+  errLayers.lateral.style.display = front ? 'none' : '';
+  errLayers.frontal.style.display = front ? '' : 'none';
+  gBadLat.style.display = solo ? 'none' : '';
+  gBadFro.style.display = solo ? 'none' : '';
+  errTags.forEach(t => { t.style.display = solo ? 'none' : ''; });
+  if (front){
+    updErrGoodFro(frontAt(d, { ox: solo ? 0 : OX_OK }));
+    updErrBadFro(frontAt(d, Object.assign({ ox:OX_BAD }, cfg.opt)));
+  } else {
+    updErrGood(poseAt(d, { ax: solo ? 106 : AX_OK }));
+    updErrBad(poseAt(d, Object.assign({ ax:AX_BAD }, cfg.opt)));
+  }
+
+  // ona
+  const x = (((u % 1) + 1) % 1) * WAVE_W;
+  waveFill.setAttribute('width', px(x));
+  waveHead.setAttribute('cx', px(x));
+  waveHead.setAttribute('cy', px(Y_HI + (Y_LO - Y_HI) * d));
+}
+
+function frame(now){
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  if (playing){
+    u = (u + dt / TOT) % 1;
+    scrub.value = Math.round(u * 1000);
+  }
+  render(u);
+  requestAnimationFrame(frame);
+}
+
+// ---- controls ---------------------------------------------------------------
+document.getElementById('viewSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  view = b.dataset.view;
+  for (const btn of e.currentTarget.children) btn.classList.toggle('on', btn === b);
+  layers.lateral.style.display = view === 'lateral' ? '' : 'none';
+  layers.frontal.style.display = view === 'frontal' ? '' : 'none';
+  boxAttr(svgMain, view === 'lateral' ? BOX_LAT : BOX_FRO);
+  render(u);
+});
+
+document.getElementById('errList').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  currentErr = b.dataset.err;
+  for (const btn of e.currentTarget.children){
+    btn.classList.toggle('on', btn === b);
+    btn.classList.toggle('good', btn === b && btn.dataset.err === 'none');
+  }
+  document.getElementById('errTxt').innerHTML = ERRORS[currentErr].txt;
+  render(u);
+});
+
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  playBtn.textContent = playing ? 'Pausa' : 'Reprèn';
+});
+scrub.addEventListener('input', () => {
+  playing = false; playBtn.textContent = 'Reprèn';
+  u = Number(scrub.value) / 1000;
+  render(u);
+});
+
+playBtn.textContent = playing ? 'Pausa' : 'Reprèn';
+render(0);
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
