@@ -1,15 +1,14 @@
 /*
-  Service worker · ALÈ · Roger
-  Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
-  Canvia CACHE a cada publicació.
+  Service worker · ALÈ · Roberto
+  Estrategia: red primero cuando hay conexión; copia local como reserva offline.
+  Cambia CACHE en cada publicación.
 */
-const CACHE = "ale-roger-meso1-no-animations-v1";
+const CACHE = "ale-roberto-meso1-v1";
 const CORE = [
   "./",
   "./index.html",
   "./exercise-animations-off.js",
   "./app.js",
-  "./coach-enhancements.js",
   "./ale-brand.css",
   "./manifest.webmanifest",
   "./icon-180.png",
