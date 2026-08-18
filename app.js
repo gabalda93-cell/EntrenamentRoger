@@ -60,6 +60,8 @@
 
   function ex(id,name,principal,reps,rest,cue,alt){ return {id,name,principal,reps,rest,cue,alt}; }
 
+  const ANCHORS = {A1:'54 kg × 10', A2:'35 kg × 10', A3:'60 kg × 10', A4:'50 kg × 10', B4:'35 kg × 10', B5:'59 kg × 10', B6:'40 kg × 10', C1:'54 kg × 10'};
+
   const PHASES = [
     {n:1, range:'Sesiones 1–3', name:'Calibración', rir:'RIR 3–4', cardio:'8 min', goal:'Aprender cargas, técnica y registro con fatiga contenida.'},
     {n:2, range:'Sesiones 4–6', name:'Base fiable', rir:'RIR 3', cardio:'10 min', goal:'Iniciar la doble progresión con una referencia ya estable.'},
@@ -103,7 +105,7 @@
   const DEFAULT_STATE = () => ({
     schemaVersion:1, clientId:CLIENT_ID, planId:PLAN_ID, consent:false, intro:false,
     credited:0, sessions:[], cardio:[], blocked:[], last:{}, sound:true, finished:false,
-    tab:'today', createdAt:new Date().toISOString()
+    tab:'today', pendingCardio:null, cardioCarry:null, createdAt:new Date().toISOString()
   });
 
   function loadState(){
@@ -193,7 +195,7 @@ button{cursor:pointer}
   }
   function progressionAdvice(e){
     const last=sessionLastFor(e.id);
-    if(!last) return {kind:'init',text:'Primera exposición: elige una carga que te deje en la parte baja-media del rango con el RIR previsto y técnica limpia.'};
+    if(!last){ const anchor=ANCHORS[e.id]; return {kind:'init',text:`Primera exposición: elige una carga que te deje en la parte baja-media del rango con el RIR previsto y técnica limpia.${anchor?` Referencia del cuestionario: ${anchor}; úsala solo como anclaje si la máquina y la técnica son equivalentes, nunca como carga obligatoria.`:''}`}; }
     if(last.partial) return {kind:'hold',text:'La exposición anterior quedó incompleta: mantén la carga y no hagas un aumento automático.'};
     const sets=(last.sets||[]).filter(s=>s.done);
     if(!sets.length) return {kind:'hold',text:'No hay datos fiables todavía: mantén la carga.'};
@@ -293,6 +295,7 @@ button{cursor:pointer}
         <div class="row sb" style="margin-top:6px"><span class="cap">Cardio</span><b>${cfg.cardio?cardioDose(phase).label+' · RPE '+cardioDose(phase).rpe:'No programado'}</b></div>
         <button class="btn" id="startSession" style="margin-top:16px">Empezar ${cfg.title.toLowerCase()}</button>
       </div>
+      ${state.pendingCardio?`<div class="card"><div class="row sb"><div><div class="eyebrow">Cardio pendiente</div><p class="head" style="margin-top:4px">${state.pendingCardio.dose.label} · RPE ${state.pendingCardio.dose.rpe}</p><p class="cap2">Bicicleta o elíptica · no bloquea la secuencia de fuerza.</p></div><span class="pill ac">${state.pendingCardio.sessionKey}</span></div><button class="btn sec" id="resumePendingCardio" style="margin-top:12px">Hacer cardio pendiente</button></div>`:''}
       ${cfg.cardio?`<div class="banner a"><b>Cardio A/C.</b> Solo se propone tras completar la fuerza y si el semáforo es verde. Si el turno ha sido especialmente duro, la versión amarilla lo omite.</div>`:`<div class="banner"><b>Sesión B sin cardio estructurado.</b> Esta exposición intermedia se mantiene más corta para proteger la recuperación.</div>`}
       <button class="btn ghost" id="openReport" style="margin-top:4px">Informe y copia de seguridad</button>
     </div>`;
@@ -449,6 +452,7 @@ button{cursor:pointer}
     document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;save();render();window.scrollTo(0,0);});
     document.getElementById('helpBtn')?.addEventListener('click',()=>{overlay={type:'introReview',index:0};render();});
     document.getElementById('startSession')?.addEventListener('click',()=>openCheckin());
+    document.getElementById('resumePendingCardio')?.addEventListener('click',()=>openPendingCardio());
     document.querySelectorAll('#openReport').forEach(b=>b.onclick=()=>{overlay={type:'report'};render();});
     document.getElementById('soundToggle')?.addEventListener('click',()=>setState({sound:!state.sound}));
     document.getElementById('exportBackup')?.addEventListener('click',exportBackup);
@@ -488,14 +492,14 @@ button{cursor:pointer}
         state.blocked.push({date:today(),ts:Date.now(),light:'red',checkin:{...overlay.data},reason:'síntomas o indicadores de semáforo rojo'});save();
         alert('Semáforo ROJO. Hoy no se inicia el entrenamiento. Registra el motivo y, si hay síntomas de alarma, prioriza valoración sanitaria.'); overlay=null;render(); return;
       }
-      startStrength(light);
+      startStrength(light, {...overlay.data});
     };
   }
 
-  function startStrength(light){
+  function startStrength(light, checkin){
     const key=nextKey(), phase=phaseNumber(), base=PLAN.exercises[key].exercises, reduced=light==='yellow', list=reduced?base.slice(0,4):base;
     const logs={}; list.forEach(e=>{const count=reduced?Math.max(1,normalSets(e,phase)-1):normalSets(e,phase); logs[e.id]={sets:Array.from({length:count},(_,i)=>({load:'',reps:'',rir:'',done:false,targetMin:targetRir(e,i,count,phase,reduced).min})),partial:false};});
-    overlay={type:'session',session:{key,phase,light,yellow:reduced,reduced,step:'warmup',current:0,exercises:list,logs,rpe:null,note:'',statusHint:reduced?'versión reducida':'sesión completa'}};render();
+    overlay={type:'session',session:{key,phase,light,checkin,yellow:reduced,reduced,step:'warmup',current:0,exercises:list,logs,rpe:null,note:'',statusHint:reduced?'versión reducida':'sesión completa'}};render();
   }
 
   function bindSession(){
@@ -532,13 +536,18 @@ button{cursor:pointer}
     const all=s.exercises.every(e=>s.logs[e.id].sets.length && s.logs[e.id].sets.every(x=>x.done));
     const status=all?(s.reduced?'reduced':'complete'):'partial';
     Object.values(s.logs).forEach(r=>r.partial=!all);
-    const record={id:`${Date.now()}-${s.key}`,date:today(),ts:Date.now(),key:s.key,phase:s.phase,light:s.light,status,rpe:s.rpe,note:s.note,checkin:undefined,exercises:s.logs};
+    const record={id:`${Date.now()}-${s.key}`,date:today(),ts:Date.now(),key:s.key,phase:s.phase,light:s.light,status,rpe:s.rpe,note:s.note,checkin:s.checkin||null,exercises:s.logs};
     state.sessions.push(record);
     if(all){state.credited=Math.min(12,state.credited+1);state.finished=state.credited>=12;}
     save();
     const cfg=PLAN.exercises[s.key], shouldCardio=all&&cfg.cardio&&!s.reduced&&s.light==='green';
-    if(shouldCardio){const dose=cardioDose(s.phase); overlay={type:'cardio',cardio:{sessionKey:s.key,phase:s.phase,dose,step:'timer',elapsed:0,running:false,startAt:null,modality:'',rpe:null,symptoms:false}};render();}
+    if(shouldCardio){const dose=state.cardioCarry||cardioDose(s.phase); state.pendingCardio={sessionKey:s.key,phase:s.phase,dose}; save(); overlay={type:'cardio',cardio:{sessionKey:s.key,phase:s.phase,dose,step:'timer',elapsed:0,running:false,startAt:null,modality:'',rpe:null,symptoms:false}};render();}
     else{overlay=null;render(); if(all)toast(status==='reduced'?'Sesión reducida acreditada. La secuencia avanza.':'Sesión acreditada.');}
+  }
+
+  function openPendingCardio(){
+    const p=state.pendingCardio; if(!p) return;
+    overlay={type:'cardio',cardio:{sessionKey:p.sessionKey,phase:p.phase,dose:p.dose,step:'timer',elapsed:0,running:false,startAt:null,modality:'',rpe:null,symptoms:false}}; render();
   }
 
   let cardioInterval=null;
@@ -555,7 +564,7 @@ button{cursor:pointer}
       document.getElementById('cardioSymptoms').onclick=()=>{c.symptoms=!c.symptoms;render();};
       document.getElementById('saveCardio').onclick=()=>{
         const min=Math.round((c.elapsed||0)/60*10)/10; const complete=min>=c.dose.min && !c.symptoms;
-        state.cardio.push({id:`cardio-${Date.now()}`,date:today(),ts:Date.now(),sessionKey:c.sessionKey,phase:c.phase,modality:c.modality,minutes:min,rpe:c.rpe,symptoms:c.symptoms,complete});save();
+        state.cardio.push({id:`cardio-${Date.now()}`,date:today(),ts:Date.now(),sessionKey:c.sessionKey,phase:c.phase,modality:c.modality,minutes:min,rpe:c.rpe,symptoms:c.symptoms,complete}); state.pendingCardio=null; state.cardioCarry=complete?null:c.dose; save();
         overlay=null;render();toast(complete?'Cardio guardado.':'Cardio guardado como incompleto; no afecta a la secuencia de fuerza.');
       };
     }
