@@ -1,8 +1,8 @@
 {
-  "name": "ALÈ · Roger · Mesocicle 1",
-  "short_name": "ALÈ Roger",
-  "description": "ALÈ · Pla d'entrenament personalitzat · Mesocicle 1",
-  "lang": "ca",
+  "name": "ALÈ · Roberto · Mesociclo 1",
+  "short_name": "ALÈ Roberto",
+  "description": "ALÈ · Plan de entrenamiento personalizado · Mesociclo 1",
+  "lang": "es",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
