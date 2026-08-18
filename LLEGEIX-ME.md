@@ -1,63 +1,32 @@
-# Entrenament Roger · Mesocicle 1 · v2.0
+# ALÈ · Roberto · Mesocicle 1
 
-Aquesta carpeta és la versió publicable de l'app d'en Roger. No cal instal·lar Node, React ni cap dependència: els fitxers ja estan compilats.
+Branca de treball per adaptar el motor de l'app al perfil i al mesocicle 1 de Roberto mantenint el llenguatge visual d'ALÈ.
 
-## Fitxers
+## Regles del bloc
 
-- `index.html` — entrada de la web app.
-- `app.js` — aplicació compilada.
-- `manifest.webmanifest` — configuració de la PWA.
-- `sw.js` — funcionament offline i actualització de la caché.
-- `icon-*.png` — icones d'instal·lació.
-- `robots.txt` — demana als cercadors que no indexin la web.
-- `VALIDACIO-v2.0.txt` — resum de l'auditoria abans de publicar.
+- 12 sessions acreditades en ordre A → B → C, sense calendari setmanal rígid.
+- Sessions 1–3: 2 sèries de treball per exercici, RIR 3–4.
+- Sessions 4–6: 3 sèries als patrons principals i 2 als accessoris, RIR 3.
+- Sessions 7–9: mateix volum, RIR 2.
+- Sessions 10–12: mateix volum; RIR 2, amb 1–2 només a l'última sèrie dels patrons principals estables.
+- Cardio només després de les sessions A i C: 8 → 10 → 12 → 12–15 minuts, RPE 3–4, bici o el·líptica.
+- Versió groga/reduïda: primers quatre exercicis, una sèrie menys, +1 RIR i sense cardio. Acredita i avança la seqüència.
+- Sessió parcial: no avança la seqüència i no autoritza increments automàtics.
+- Sense treball abdominal directe al M1.
+- Sense sèries obligatòries al falliment.
 
-## Publicació a GitHub Pages
+## Seguretat i autoregulació
 
-1. Descomprimeix el ZIP.
-2. Puja **els fitxers de dins** a l'arrel del repositori; `index.html` ha de quedar directament a l'arrel.
-3. A GitHub: `Settings` → `Pages` → `Deploy from a branch` → `main` → `/(root)`.
-4. Obre la URL publicada i comprova que a Configuració apareix **v2.0**.
+El check-in registra energia, son, dolor, càrrega laboral i si hi ha símptomes respiratoris fora de l'habitual. El sistema no dona instruccions farmacològiques. Un semàfor vermell bloqueja l'inici de la sessió.
 
-No pengis el ZIP com un únic fitxer: GitHub Pages no el descomprimeix.
+## Dades i PWA
 
-## Instal·lació a l'iPhone
+- Idioma principal de la interfície: castellà.
+- Disseny responsive pensat especialment per Android.
+- Persistència local i funcionament offline mitjançant service worker.
+- Còpia de seguretat amb esquema genèric `ale-training-backup`, `clientId=roberto` i `planId=roberto-m1`.
+- Sense correu, telèfon ni dades de contacte al bundle publicable.
 
-La ruta més fiable és:
+## Estat d'aquesta branca
 
-1. Obrir la URL publicada amb Safari.
-2. Compartir → `Afegeix a la pantalla d'inici`.
-3. Obrir `Pla Roger` des de la icona.
-
-La primera obertura necessita connexió perquè el dispositiu descarregui l'app. Després, els fitxers essencials queden disponibles offline.
-
-## Dades i còpies de seguretat
-
-El registre d'entrenament es desa localment al dispositiu. No hi ha cap servidor ni base de dades remota en aquesta versió.
-
-- Si s'esborren les dades del navegador o es canvia de dispositiu, el registre local es pot perdre.
-- L'app permet **Guarda una còpia del progrés** i **Restaura una còpia**.
-- El JSON de còpia conté dades d'entrenament i autoregistre: s'ha de tractar com un fitxer privat.
-- L'informe per a l'entrenador es pot copiar, descarregar o imprimir/desar en PDF.
-
-Recomanació operativa: fer una còpia al final de cada setmana i una altra abans de tancar el mesocicle.
-
-## Privacitat de la URL
-
-`noindex` i `robots.txt` redueixen la probabilitat que la pàgina aparegui als cercadors, però **no són un sistema d'autenticació**. Qualsevol persona que conegui una URL pública pot intentar obrir-la.
-
-Per al pilot, el codi publicable s'ha minimitzat perquè no contingui telèfon, correu ni detall clínic innecessari del qüestionari. El registre real de sessions queda al dispositiu fins que l'usuari decideix exportar-lo.
-
-Abans d'utilitzar aquest sistema comercialment a escala, convé separar clarament la web pública del sistema de dades/seguiment que requereixi control d'accés.
-
-## Equipament i prescripció
-
-La v2.0 s'ha contrastat amb el qüestionari d'en Roger. Els exercicis obligatoris depenen de material que ha declarat disponible a casa. Les variants que requereixen un element no confirmat queden com a alternatives condicionades, no com a exercicis obligatoris.
-
-S'ha respectat la seva petició de no fer pes mort. El bloc cardiovascular és una reentrada progressiva cap al seu objectiu futur de córrer 5 km, no una prescripció immediata de 5 km tres vegades per setmana.
-
-## Actualitzacions
-
-`sw.js` utilitza una caché versionada i estratègia de xarxa-primer. Quan hi ha connexió intenta servir la versió publicada més recent; si no n'hi ha, utilitza la còpia local.
-
-En futures versions, canvia sempre el nom de `CACHE` del service worker abans de publicar.
+Aquesta és una branca de preparació i QA. La publicació definitiva s'ha de fer al repositori propi de Roberto perquè la ruta pública no depengui del repositori del client anterior.
