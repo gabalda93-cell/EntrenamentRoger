@@ -3,11 +3,10 @@
   Estrategia: red primero cuando hay conexión; copia local como reserva offline.
   Cambia CACHE en cada publicación.
 */
-const CACHE = "ale-roberto-meso1-v1";
+const CACHE = "ale-roberto-meso1-v2";
 const CORE = [
   "./",
   "./index.html",
-  "./exercise-animations-off.js",
   "./app.js",
   "./ale-brand.css",
   "./manifest.webmanifest",
