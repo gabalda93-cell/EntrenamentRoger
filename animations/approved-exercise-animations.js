@@ -70,6 +70,37 @@
           error: true
         })
       ])
+    }),
+    A3: Object.freeze({
+      name: 'Rem amb manuella recolzat',
+      tempo: '2–0–1–1',
+      views: Object.freeze([
+        Object.freeze({
+          key: 'lateral',
+          label: 'Lateral',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-lateral-correcte.gif',
+          alt: 'Rem amb manuella recolzat correcte vist de costat: mà i genoll contralaterals ferms al banc, peu actiu plantat i tòrax estable.',
+          description: 'Vista lateral · suports fixos, columna llarga i colze actiu que viatja cap al maluc.'
+        }),
+        Object.freeze({
+          key: 'obliqua',
+          label: 'Obliqua',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-obliqua-correcte.gif',
+          alt: 'Rem amb manuella recolzat correcte en vista obliqua: el tors es manté quadrat mentre la manuella puja cap al maluc.',
+          description: 'Vista obliqua · el braç de suport queda darrere del tors i la rotació toràcica es manté neutra.'
+        }),
+        Object.freeze({
+          key: 'girar-torax',
+          label: 'Error: tòrax',
+          state: 'Error tècnic',
+          src: './animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-obliqua-error-girar-torax.gif',
+          alt: 'Error en el rem amb manuella recolzat: l’espatlla activa gira el tòrax per ajudar a pujar la càrrega.',
+          description: 'Error · el tòrax s’obre cap al costat carregat. Redueix la càrrega i mantén pelvis i tronc estables.',
+          error: true
+        })
+      ])
     })
   });
 
