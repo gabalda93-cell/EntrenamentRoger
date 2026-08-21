@@ -3,7 +3,7 @@
   Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
   Canvia CACHE a cada publicació.
 */
-const CACHE = "ale-roger-meso1-approved-a1-a2-a3-v1";
+const CACHE = "ale-roger-meso1-approved-a1-a2-a3-a4-v1";
 const CORE = [
   "./",
   "./index.html",
@@ -22,6 +22,9 @@ const CORE = [
   "./animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-lateral-correcte.gif",
   "./animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-obliqua-correcte.gif",
   "./animations/approved/a3-dbrow-banc-genoll/dbrow-banc-genoll-obliqua-error-girar-torax.gif",
+  "./animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-lateral-correcte.gif",
+  "./animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-obliqua-correcte.gif",
+  "./animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-lateral-error-hiperextensio-lumbar-dalt.gif",
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",

@@ -101,6 +101,37 @@
           error: true
         })
       ])
+    }),
+    A4: Object.freeze({
+      name: 'Hip thrust amb barra',
+      tempo: '2–0–1–1',
+      views: Object.freeze([
+        Object.freeze({
+          key: 'lateral',
+          label: 'Lateral',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-lateral-correcte.gif',
+          alt: 'Hip thrust amb barra correcte vist de costat: part baixa de les escàpules recolzada al banc, peus plantats i malucs alineats amb el tronc sense arquejar la zona lumbar.',
+          description: 'Vista lateral · barra sobre el plec del maluc, plantes senceres a terra i final amb costelles i pelvis alineades.'
+        }),
+        Object.freeze({
+          key: 'obliqua',
+          label: 'Obliqua',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-obliqua-correcte.gif',
+          alt: 'Hip thrust amb barra correcte en vista obliqua: suport escapular estable, peus simètrics i barra centrada durant tot el recorregut.',
+          description: 'Vista obliqua · mans sobre la barra, genolls alineats i tres interfícies de suport estables.'
+        }),
+        Object.freeze({
+          key: 'hiperextensio-lumbar-dalt',
+          label: 'Error: lumbar',
+          state: 'Error tècnic',
+          src: './animations/approved/a4-barbell-hip-thrust/barbell-hip-thrust-lateral-error-hiperextensio-lumbar-dalt.gif',
+          alt: 'Error en el hip thrust amb barra vist de costat: les costelles s’obren i la zona lumbar s’arqueja al final en lloc de completar l’extensió amb els glutis.',
+          description: 'Error · hiperextensió lumbar al final. Mantén les costelles sobre la pelvis i acaba apretant els glutis.',
+          error: true
+        })
+      ])
     })
   });
 
