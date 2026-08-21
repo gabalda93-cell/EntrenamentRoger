@@ -39,6 +39,37 @@
           error: true
         })
       ])
+    }),
+    A2: Object.freeze({
+      name: 'Press de banca amb manuelles',
+      tempo: '3–1–1–0',
+      views: Object.freeze([
+        Object.freeze({
+          key: 'lateral',
+          label: 'Lateral',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a2-bench/bench-lateral-correcte.gif',
+          alt: 'Press de banca amb manuelles correcte vist de costat: cap, zona escapular i pelvis recolzats, peus ferms i avantbraços verticals.',
+          description: 'Vista lateral · suports estables, rang còmode i canells alineats sobre els colzes.'
+        }),
+        Object.freeze({
+          key: 'obliqua',
+          label: 'Obliqua',
+          state: 'Tècnica correcta',
+          src: './animations/approved/a2-bench/bench-obliqua-correcte.gif',
+          alt: 'Press de banca amb manuelles correcte en vista obliqua: colzes orientats a uns 55 graus del tronc i manuelles separades.',
+          description: 'Vista obliqua · colzes a 55° del tronc i manuelles que pugen sense xocar.'
+        }),
+        Object.freeze({
+          key: 'colzes-oberts',
+          label: 'Error: colzes',
+          state: 'Error tècnic',
+          src: './animations/approved/a2-bench/bench-obliqua-error-colzes-massa-oberts.gif',
+          alt: 'Error en el press de banca amb manuelles: els colzes s’obren fins gairebé 90 graus respecte del tronc.',
+          description: 'Error · els colzes s’obren fins a 85°. Redueix la càrrega o el rang i recupera el patró pautat.',
+          error: true
+        })
+      ])
     })
   });
 
@@ -88,7 +119,7 @@
     const description = make('p', 'ale-approved-animation__description');
     description.setAttribute('aria-live', 'polite');
     copy.appendChild(description);
-    copy.appendChild(make('p', 'ale-approved-animation__foot', 'Tempo 3–0–1–0 · baixada, pausa baixa, pujada, pausa alta.'));
+    copy.appendChild(make('p', 'ale-approved-animation__foot', `Tempo ${exercise.tempo} · baixada, pausa baixa, pujada, pausa alta.`));
     card.appendChild(copy);
 
     let active = '';
