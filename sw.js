@@ -3,7 +3,7 @@
   Estratègia: xarxa primer quan hi ha connexió; còpia local com a reserva offline.
   Canvia CACHE a cada publicació.
 */
-const CACHE = "ale-roger-meso1-no-animations-v1";
+const CACHE = "ale-roger-meso1-approved-a1-v1";
 const CORE = [
   "./",
   "./index.html",
@@ -11,6 +11,11 @@ const CORE = [
   "./app.js",
   "./coach-enhancements.js",
   "./ale-brand.css",
+  "./animations/approved-exercise-animations.css",
+  "./animations/approved-exercise-animations.js",
+  "./animations/approved/a1-goblet/goblet-lateral-correcte.gif",
+  "./animations/approved/a1-goblet/goblet-frontal-correcte.gif",
+  "./animations/approved/a1-goblet/goblet-frontal-error-valg-de-genoll.gif",
   "./manifest.webmanifest",
   "./icon-180.png",
   "./icon-192.png",
